@@ -1,3 +1,6 @@
-group:
-  sundeck:
-    entities: light.sundeck_led_1
+outside_lights_view:
+  name: Sundeck LEDs
+  icon: mdi:led-outline
+  view: yes
+  entities: 
+    - light.sundeck_led_1

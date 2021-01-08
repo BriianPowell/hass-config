@@ -18,12 +18,14 @@ homeassistant:
 
   automation: !include automations.yaml
 
+  zone: !include zones.yaml
+
   # Enables the frontend
   frontend:
 
   # Enables Lovelave UI
   lovelace:
-    mode: automations.yaml
+    mode: yaml
 
   # Enables the API
   api:
