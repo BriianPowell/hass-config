@@ -36,9 +36,9 @@ homeassistant:
   #enables configuration UI
   config:
 
-  # http:
-  # # Uncomment this if you are using SSL or running in Docker etc
-  #   base_url: "http://homeassistant.local:8123"
+  http:
+  # Uncomment this if you are using SSL or running in Docker etc
+    base_url: "http://homeassistant.local:8123"
 
   # Checks for available updates
   updater:
@@ -54,10 +54,10 @@ homeassistant:
   conversation:
 
   # Enables support for tracking state changes over time
-  # history:
-  #   exclude:
-  #     entities:
-  #       - sensors.last_boot
+  history:
+    exclude:
+      entities:
+        - sensors.last_boot
   
   # Enables the map page
   map:
@@ -76,15 +76,15 @@ homeassistant:
   mqtt:
     broker: host.docker.internal
 
-  # light:
-  #   - platform: mqtt
-  #     schema: json
-  #     name: sundeck_led_1
-  #     state_topic: "home/sundeck/rgb1"
-  #     command_topic: "home/sundeck/rgb1/set"
-  #     brightness: true
-  #     rgb: true
-  #     effect: true
-  #     effect_list: [colorfade_slow, colorfade_fast, flash]
-  #     optimistic: false
-  #     qos: 0
+  light:
+    - platform: mqtt
+      schema: json
+      name: sundeck_led_1
+      state_topic: "home/sundeck/rgb1"
+      command_topic: "home/sundeck/rgb1/set"
+      brightness: true
+      rgb: true
+      effect: true
+      effect_list: [colorfade_slow, colorfade_fast, flash]
+      optimistic: false
+      qos: 0
