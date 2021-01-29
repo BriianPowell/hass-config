@@ -1,13 +1,13 @@
-title: Villa Park
+# title: Villa Park
 
-views:
-  - title: Backyard
-    id: backyard
-    icon: mdi:home
-    cards:
-      - title: Sundeck
-        type: entities
-        show_header_toggle: true
-        entities:
-          - entity: group.outside_lights_view
-            name: Sundeck Lights
+# views:
+#   - title: Backyard
+#     id: backyard
+#     icon: mdi:home
+#     cards:
+#       - title: Sundeck
+#         type: entities
+#         show_header_toggle: true
+#         entities:
+#           - entity: group.outside_lights_view
+#             name: Sundeck Lights
