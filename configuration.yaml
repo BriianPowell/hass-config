@@ -14,31 +14,31 @@ homeassistant:
   
   # internal_url: "http://homeassistant.local:8123"
 
-  # Customize device names
-  customize: !include customize.yaml
+  # # Customize device names
+  # customize: !include customize.yaml
 
-  group: !include groups.yaml
+  # group: !include groups.yaml
 
-  automation: !include automations.yaml
+  # automation: !include automations.yaml
 
-  zone: !include zones.yaml
+  # zone: !include zones.yaml
 
-  # Enables the frontend
-  frontend:
+  # # Enables the frontend
+  # frontend:
 
-  # Enables Lovelave UI
-  lovelace:
-    mode: yaml
+  # # Enables Lovelave UI
+  # lovelace:
+  #   mode: yaml
 
-  # Enables the API
-  api:
+  # # Enables the API
+  # api:
 
-  #enables configuration UI
-  config:
+  # #enables configuration UI
+  # config:
 
-  http:
-  # Uncomment this if you are using SSL or running in Docker etc
-    base_url: "http://homeassistant.local:8123"
+  # http:
+  # # Uncomment this if you are using SSL or running in Docker etc
+  #   base_url: "http://homeassistant.local:8123"
 
   # Checks for available updates
   # updater:
