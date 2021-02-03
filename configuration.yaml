@@ -11,78 +11,77 @@ homeassistant:
   unit_system: imperial
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
-  
   # Customize device names
   customize: !include customize.yaml
 
-  # group: !include groups.yaml
+group: !include groups.yaml
 
-  # automation: !include automations.yaml
+automation: !include automations.yaml
 
-  zone: !include zones.yaml
+zone: !include zones.yaml
 
-  # Enables the frontend
-  frontend:
+# Enables the frontend
+frontend:
 
-  # Enables Lovelave UI
-  lovelace:
-    mode: yaml
+# Enables Lovelave UI
+lovelace:
+  mode: yaml
 
-  # Enables the API
-  api:
+# Enables the API
+api:
 
-  #enables configuration UI
-  config:
+#enables configuration UI
+config:
 
-  http:
-  # Uncomment this if you are using SSL or running in Docker etc
-    base_url: "http://homeassistant.local:8123"
+http:
+# Uncomment this if you are using SSL or running in Docker etc
+  base_url: "http://homeassistant.local:8123"
 
-  # Checks for available updates
-  updater:
+# Checks for available updates
+updater:
 
-  # Stores state and event history
-  recorder:
-    db_url: !secret RECORDER_DATABASE_URL
+# Stores state and event history
+recorder:
+  db_url: !secret RECORDER_DATABASE_URL
 
-  # Discover some devices automatically
-  discovery:
+# Discover some devices automatically
+discovery:
 
-  # Allows you to issue voice commands from the frontend in enabled browsers
-  conversation:
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
 
-  # Enables support for tracking state changes over time
-  history:
-    exclude:
-      entities:
-        - sensors.last_boot
-  
-  # Enables the map page
-  map:
+# Enables support for tracking state changes over time
+history:
+  exclude:
+    entities:
+      - sensors.last_boot
 
-  # View all events in a logbook
-  logbook:
+# Enables the map page
+map:
 
-  system_health:
+# View all events in a logbook
+logbook:
 
-  # Track the sun
-  sun:
+system_health:
 
-  wake_on_lan:
+# Track the sun
+sun:
 
-  # Custom components
-  mqtt:
-    broker: host.docker.internal
+wake_on_lan:
 
-  light:
-    - platform: mqtt
-      schema: json
-      name: sundeck_led_1
-      state_topic: "home/sundeck/rgb1"
-      command_topic: "home/sundeck/rgb1/set"
-      brightness: true
-      rgb: true
-      effect: true
-      effect_list: [colorfade_slow, colorfade_fast, flash]
-      optimistic: false
-      qos: 0
+# Custom components
+mqtt:
+  broker: host.docker.internal
+
+light:
+  - platform: mqtt
+    schema: json
+    name: sundeck_led_1
+    state_topic: "home/sundeck/rgb1"
+    command_topic: "home/sundeck/rgb1/set"
+    brightness: true
+    rgb: true
+    effect: true
+    effect_list: [colorfade_slow, colorfade_fast, flash]
+    optimistic: false
+    qos: 0
