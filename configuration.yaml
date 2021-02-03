@@ -15,7 +15,7 @@ homeassistant:
   # Customize device names
   customize: !include customize.yaml
 
-  group: !include groups.yaml
+  # group: !include groups.yaml
 
   automation: !include automations.yaml
 
