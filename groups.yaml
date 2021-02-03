@@ -1,6 +1,6 @@
 # Groups
 
-default_view:
+outside_lights_view:
   name: Sundeck LEDs
   icon: mdi:led-outline
   view: yes
