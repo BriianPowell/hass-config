@@ -12,7 +12,7 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
   
-  # internal_url: "http://homeassistant.local:8123"
+  internal_url: "http://homeassistant.local:8123"
 
   # # Customize device names
   # customize: !include customize.yaml
