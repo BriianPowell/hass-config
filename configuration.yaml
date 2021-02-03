@@ -17,7 +17,7 @@ homeassistant:
 
   # group: !include groups.yaml
 
-  automation: !include automations.yaml
+  # automation: !include automations.yaml
 
   zone: !include zones.yaml
 
