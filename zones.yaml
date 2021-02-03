@@ -1,5 +1,5 @@
-# - name: Home
-#   latitude: !secret LOCATION_LATITUDE
-#   longitude: !secret LOCATION_LONGITUDE
-#   radius: 30
-#   icon: mdi:home
+- name: Home
+  latitude: !secret LOCATION_LATITUDE
+  longitude: !secret LOCATION_LONGITUDE
+  radius: 30
+  icon: mdi:home
