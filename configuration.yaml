@@ -42,7 +42,8 @@ updater:
 # Stores state and event history
 recorder:
   db_url: !secret RECORDER_DATABASE_URL
-
+  purge_keep_days: 5
+  
 # Discover some devices automatically
 discovery:
 
@@ -51,9 +52,9 @@ conversation:
 
 # Enables support for tracking state changes over time
 history:
-  exclude:
-    entities:
-      - sensors.last_boot
+  # exclude:
+  #   entities:
+  #     - light.last_boot
 
 # Enables the map page
 map:
