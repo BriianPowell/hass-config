@@ -1,5 +1,3 @@
-#Zones
-
 - name: Home
   latitude: !secret LOCATION_LATITUDE
   longitude: !secret LOCATION_LONGITUDE
