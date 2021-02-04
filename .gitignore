@@ -1,1 +1,7 @@
 secrets.yaml
+
+.storage/*
+
+blueprints/*
+
+*.log
