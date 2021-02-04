@@ -10,7 +10,6 @@ homeassistant:
   unit_system: imperial
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
-  external_url: "http://homeassistant.local:8123"
   internal_url: "http://homeassistant.local:8123"
   # Customize device names
   customize: !include customize.yaml
@@ -34,9 +33,9 @@ api:
 #enables configuration UI
 config:
 
-http:
-# Uncomment this if you are using SSL or running in Docker etc
-  base_url: "http://homeassistant.local:8123"
+# http:
+# # Uncomment this if you are using SSL or running in Docker etc
+#   base_url: "http://homeassistant.local:8123"
 
 # Checks for available updates
 updater:
