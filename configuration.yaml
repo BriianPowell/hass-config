@@ -33,9 +33,9 @@ api:
 #enables configuration UI
 config:
 
-# http:
-# # Uncomment this if you are using SSL or running in Docker etc
-#   base_url: "http://homeassistant.local:8123"
+http:
+# Uncomment this if you are using SSL or running in Docker etc
+  base_url: "http://homeassistant.local:8123"
 
 # Checks for available updates
 updater:
