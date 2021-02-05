@@ -33,7 +33,7 @@ api:
 config:
 
 http:
-  base_url: http://ha-powell.ducksdns.org:8123
+  base_url: https://ha-powell.ducksdns.org:8123
 
 # Checks for available updates
 updater:
