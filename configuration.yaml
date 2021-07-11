@@ -33,7 +33,7 @@ api:
 config:
 
 http:
-  base_url: https://ha-powell.ducksdns.org:8123
+  base_url: "https://ha-powell.ducksdns.org:8123"
 
 # Checks for available updates
 updater:
@@ -71,6 +71,9 @@ wake_on_lan:
 # Custom components
 mqtt:
   broker: host.docker.internal
+  port: 1883
+  username: "mqtt_user"
+  password: !secret MQTT_PASSWORD
 
 light:
   - platform: mqtt
