@@ -33,7 +33,17 @@ api:
 config:
 
 http:
-  base_url: "https://ha-powell.ducksdns.org:8123"
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.0.0.0/16 # Local LAN Subnet
+    - 10.42.0.0/16 # Kubernetes Subnet
+    - 127.0.0.1
+    - ::1
+    - fe80::/64
+    - fe00::/64
+    - fd00::/64
 
 # Checks for available updates
 updater:
@@ -42,7 +52,7 @@ updater:
 recorder:
   db_url: !secret RECORDER_DATABASE_URL
   purge_keep_days: 5
-  
+
 # Discover some devices automatically
 discovery:
 
@@ -67,23 +77,22 @@ system_health:
 sun:
 
 wake_on_lan:
-
 # Custom components
-mqtt:
-  broker: host.docker.internal
-  port: 1883
-  username: "mqtt_user"
-  password: !secret MQTT_PASSWORD
+# mqtt:
+#   broker: host.docker.internal
+#   port: 1883
+#   username: "mqtt_user"
+#   password: !secret MQTT_PASSWORD
 
-light:
-  - platform: mqtt
-    schema: json
-    name: sundeck_led_1
-    state_topic: "home/sundeck/rgb1"
-    command_topic: "home/sundeck/rgb1/set"
-    brightness: true
-    rgb: true
-    effect: true
-    effect_list: [colorfade_slow, colorfade_fast, flash]
-    optimistic: false
-    qos: 0
+# light:
+#   - platform: mqtt
+#     schema: json
+#     name: sundeck_led_1
+#     state_topic: "home/sundeck/rgb1"
+#     command_topic: "home/sundeck/rgb1/set"
+#     brightness: true
+#     rgb: true
+#     effect: true
+#     effect_list: [colorfade_slow, colorfade_fast, flash]
+#     optimistic: false
+#     qos: 0
