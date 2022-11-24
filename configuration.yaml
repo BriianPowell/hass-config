@@ -6,17 +6,31 @@ homeassistant:
   longitude: !secret LOCATION_LONGITUDE
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: !secret LOCATION_ELEVATION
-  # metric for Metric, imperial for Imperial
-  unit_system: imperial
+  # metric for Metric, us_customary for Imperial
+  unit_system: us_customary
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
   # Customize device names
   customize: !include customize.yaml
 
+# Configuration required for Kubernetes deployment
+http:
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.0.0.0/16 # Local LAN Subnet
+    - 10.42.0.0/24 # Kubernetes Subnet
+
+# Stores state and event history
+recorder:
+  db_url: !secret RECORDER_DATABASE_URL
+  purge_keep_days: 5
+
 group: !include groups.yaml
-
 automation: !include automations.yaml
-
+script: !include scripts.yaml
+scene: !include scenes.yaml
 zone: !include zones.yaml
 
 # Enables the frontend
@@ -28,6 +42,12 @@ lovelace:
 
 # Enables the API
 api:
+
+# Handles redirects from the 'My Home Assistant' service
+my:
+
+# Needed for HomeKit integration
+network:
 
 #enables configuration UI
 config:
@@ -65,28 +85,13 @@ map:
 # View all events in a logbook
 logbook:
 
-system_health:
-
 # Track the sun
 sun:
 
-wake_on_lan:
-# Custom components
-# mqtt:
-#   broker: host.docker.internal
-#   port: 1883
-#   username: "mqtt_user"
-#   password: !secret MQTT_PASSWORD
+system_health:
 
-# light:
-#   - platform: mqtt
-#     schema: json
-#     name: sundeck_led_1
-#     state_topic: "home/sundeck/rgb1"
-#     command_topic: "home/sundeck/rgb1/set"
-#     brightness: true
-#     rgb: true
-#     effect: true
-#     effect_list: [colorfade_slow, colorfade_fast, flash]
-#     optimistic: false
-#     qos: 0
+homekit:
+  advertise_ip: 10.0.0.10
+  filter:
+    include_domains:
+    - light

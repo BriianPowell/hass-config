@@ -1,14 +1,27 @@
 # UI Lovelace
 
 title: Huntington Beach
-# views:
-#   - title: Backyard
-#     id: backyard
-#     icon: mdi:home
-#     cards:
-#       - title: Sundeck
-#         type: entities
-#         show_header_toggle: true
-#         entities:
-#           - entity: group.outside_lights_view
-#             name: Sundeck Lights
+views:
+  - title: Home
+    id: home
+    icon: mdi:home
+    cards:
+    - type: glance
+      title: sun
+      show_name: false
+      show_state: false
+      entities:
+        - sun.sun
+  - title: Living Room
+    id: livingroom
+    icon: mdi:sofa
+    # cards:
+    #   - title: Sundeck
+    #     type: entities
+    #     show_header_toggle: true
+    #     entities:
+    #       - entity: group.outside_lights_view
+    #         name: Sundeck Lights
+  - title: Office
+    id: office
+    icon: mdi:desktop-classic
