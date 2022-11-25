@@ -32,6 +32,7 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 zone: !include zones.yaml
+sensor: !include sensosr.yaml
 
 # Enables the frontend
 frontend:
@@ -39,6 +40,11 @@ frontend:
 # Enables Lovelave UI
 lovelace:
   mode: yaml
+
+  # Add ons for Lovelace
+  resources:
+    - url: /local/home-assistant-sun-card.js
+      type: module
 
 # Enables the API
 api:
@@ -49,23 +55,8 @@ my:
 # Needed for HomeKit integration
 network:
 
-#enables configuration UI
+# Enables configuration UI
 config:
-
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 10.0.0.0/16 # Local LAN Subnet
-    - 10.42.0.0/24 # Kubernetes Subnet
-    - 10.43.0.0/24
-
-# Checks for available updates
-updater:
-
-# Stores state and event history
-recorder:
-  db_url: !secret RECORDER_DATABASE_URL
-  purge_keep_days: 5
 
 # Discover some devices automatically
 discovery:
@@ -90,8 +81,4 @@ sun:
 
 system_health:
 
-homekit:
-  advertise_ip: 10.0.0.10
-  filter:
-    include_domains:
-    - light
+homekit: !include homekit.yaml

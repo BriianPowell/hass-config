@@ -1,9 +1,3 @@
-# hass-config
+# Home Assistant
 
-Config for Home Assistant
-
-## Useful Scripts
-
-```bash
-scp secrets.yaml user@ip:/home/GitHub/hass-config
-```
+My set of configuration files for Home Assistant, currently running in a K3S cluster on my personal pc.
