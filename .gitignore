@@ -5,3 +5,4 @@ home-assistant.*
 .cloud
 .storage
 .HA_VERSION
+deps/*
