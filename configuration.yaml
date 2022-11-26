@@ -32,7 +32,7 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 zone: !include zones.yaml
-sensor: !include sensosr.yaml
+sensor: !include sensors.yaml
 
 # Enables the frontend
 frontend:
@@ -44,6 +44,8 @@ lovelace:
   # Add ons for Lovelace
   resources:
     - url: /local/home-assistant-sun-card.js
+      type: module
+    - url: /local/mini-graph-card-bundle.js
       type: module
 
 # Enables the API
@@ -59,7 +61,7 @@ network:
 config:
 
 # Discover some devices automatically
-discovery:
+zeroconf:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:

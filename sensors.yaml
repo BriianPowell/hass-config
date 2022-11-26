@@ -1,0 +1,35 @@
+  - platform: statistics
+    name: Server SmartPlug Power 30min
+    entity_id: sensor.smartplug_server_1min
+    state_characteristic: mean
+    precision: 0
+    sampling_size: 30
+    max_age:
+      minutes: 30
+
+  - platform: statistics
+    name: PC SmartPlug Power 30min
+    entity_id: sensor.smartplug_pc_1min
+    state_characteristic: mean
+    precision: 0
+    sampling_size: 30
+    max_age:
+      minutes: 30
+
+  - platform: statistics
+    name: Tony SmartPlug Power 30min
+    entity_id: sensor.smartplug_tony_1min
+    state_characteristic: mean
+    precision: 0
+    sampling_size: 30
+    max_age:
+      minutes: 30
+
+  - platform: statistics
+    name: Carlos SmartPlug Power 30min
+    entity_id: sensor.smartplug_carlos_1min
+    state_characteristic: mean
+    precision: 0
+    sampling_size: 30
+    max_age:
+      minutes: 30
