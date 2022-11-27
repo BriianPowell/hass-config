@@ -1,0 +1,6 @@
+name: !secret LOCATION
+latitude: !secret LOCATION_LATITUDE
+longitude: !secret LOCATION_LONGITUDE
+elevation: !secret LOCATION_ELEVATION
+unit_system: us_customary
+time_zone: America/Los_Angeles

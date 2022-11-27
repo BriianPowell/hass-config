@@ -1,5 +1,7 @@
 # UI Lovelace
 
+background: var(--background-image)
+
 title: Huntington Beach
 views:
   - title: Home
@@ -45,16 +47,19 @@ views:
         - entity: sensor.smartplug_tony_1min
           aggregate_func: avg
           show_points: false
-  # - title: Living Room
-  #   id: livingroom
-  #   icon: mdi:sofa
-  #   # cards:
-  #   #   - title: Sundeck
-  #   #     type: entities
-  #   #     show_header_toggle: true
-  #   #     entities:
-  #   #       - entity: group.outside_lights_view
-  #   #         name: Sundeck Lights
+    - type: entities
+      show_header_toggle: false
+      entities:
+      - entities:
+        - input_select.theme
+        - input_boolean.theme_alternative
+        head:
+          entity: input_boolean.dark_mode
+          name: Dark mode
+        type: custom:fold-entity-row
+  - title: Living Room
+    id: livingroom
+    icon: mdi:sofa
   - title: Office
     id: office
     icon: mdi:desktop-classic

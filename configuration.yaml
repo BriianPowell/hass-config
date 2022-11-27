@@ -1,86 +1,41 @@
-homeassistant:
-  # Name of the location where Home Assistant is running
-  name: !secret LOCATION
-  # Location required to calculate the time the sun rises and sets
-  latitude: !secret LOCATION_LATITUDE
-  longitude: !secret LOCATION_LONGITUDE
-  # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: !secret LOCATION_ELEVATION
-  # metric for Metric, us_customary for Imperial
-  unit_system: us_customary
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: America/Los_Angeles
-  # Customize device names
-  customize: !include customize.yaml
-
-# Configuration required for Kubernetes deployment
-http:
-  ip_ban_enabled: true
-  login_attempts_threshold: 5
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 10.0.0.0/16 # Local LAN Subnet
-    - 10.42.0.0/24 # Kubernetes Subnet
-
-# Stores state and event history
-recorder:
-  db_url: !secret RECORDER_DATABASE_URL
-  purge_keep_days: 5
-
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-zone: !include zones.yaml
-sensor: !include sensors.yaml
-
-# Enables the frontend
+homeassistant: !include includes/homeassistant.yaml
+default_config:
 frontend:
+  themes: !include_dir_merge_named themes
+http: !include includes/http.yaml
+
+# Logging and History
+recorder: !include includes/recorder.yaml
+
+# Inputs
+input_boolean: !include includes/input_booleans.yaml
+input_select: !include includes/input_selects.yaml
+
+automation: !include_dir_merge_list automations
+scene: !include includes/scenes.yaml
+script: !include includes/scripts.yaml
+group: !include includes/groups.yaml
+zone: !include includes/zones.yaml
+sensor: !include includes/sensors.yaml
+homekit: !include includes/homekit.yaml
 
 # Enables Lovelave UI
 lovelace:
   mode: yaml
-
   # Add ons for Lovelace
   resources:
     - url: /local/home-assistant-sun-card.js
       type: module
     - url: /local/mini-graph-card-bundle.js
       type: module
+    - url: /local/fold-entity-row.js
+      type: module
 
 # Enables the API
 api:
 
-# Handles redirects from the 'My Home Assistant' service
-my:
-
 # Needed for HomeKit integration
 network:
 
-# Enables configuration UI
-config:
-
-# Discover some devices automatically
-zeroconf:
-
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
-
-# Enables support for tracking state changes over time
-history:
-  # exclude:
-  #   entities:
-  #     - light.last_boot
-
-# Enables the map page
-map:
-
-# View all events in a logbook
-logbook:
-
-# Track the sun
-sun:
-
-system_health:
-
-homekit: !include homekit.yaml

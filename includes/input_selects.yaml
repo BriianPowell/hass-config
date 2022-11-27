@@ -1,0 +1,11 @@
+theme:
+  options:
+    - blue-red
+    - dark-blue
+    - dark-green
+    - light-blue
+    - light-green
+    - orange
+    - red
+    - dracula
+  icon: mdi:format-color-fill

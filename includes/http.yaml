@@ -1,0 +1,7 @@
+# Configuration required for Kubernetes deployment
+ip_ban_enabled: true
+login_attempts_threshold: 5
+use_x_forwarded_for: true
+trusted_proxies:
+  - 10.0.0.0/16 # Local LAN Subnet
+  - 10.42.0.0/24 # Kubernetes Subnet
