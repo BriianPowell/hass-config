@@ -60,10 +60,23 @@ views:
   - title: Living Room
     id: livingroom
     icon: mdi:sofa
+    cards:
+      - type: entities
+        title: Living Room Lights
+        show_header_toggle: false
+        entities:
+          - entity: light.livingroom_left
+          - entity: light.livingroom_right
+          - entity: light.hallway_entry
   - title: Office
     id: office
     icon: mdi:desktop-classic
     cards:
+    - type: entities
+      title: Office Lights
+      show_header_toggle: false
+      entities:
+        - entity: light.desk
     - type: entities
       title: SmartPlugs
       show_header_toggle: false
@@ -164,6 +177,16 @@ views:
                 entity_id: switch.smartplug_tony
               confirmation:
                 text: Are you sure you want to turn on the switch?
+  - title: Bedroom
+    id: bedroom
+    icon: mdi:bed-king
+    cards:
+    - type: entities
+      title: Bedroom Lights
+      show_header_toggle: false
+      entities:
+        - entity: light.nightstand
+        - entity: light.dresser
   - title: Bedroom-Carlos
     id: bedroom-carlos
     icon: mdi:bed-queen
@@ -204,3 +227,12 @@ views:
                 entity_id: switch.smartplug_carlos
               confirmation:
                 text: Are you sure you want to turn on the switch?
+  - title: Frontyard
+    id: frontyard
+    icon: mdi:grass
+    cards:
+      - type: entities
+        title: Frontyard Lights
+        show_header_toggle: false
+        entities:
+          - entity: light.porch
