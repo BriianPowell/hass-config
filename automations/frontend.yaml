@@ -1,7 +1,5 @@
 - alias: 'Frontend: turn on dark mode'
   trigger:
-    - platform: time
-      at: '20:00'
     - platform: sun
       event: sunset
   condition: "{{ is_state('input_boolean.dark_mode', 'off') }}"
@@ -11,8 +9,6 @@
 
 - alias: 'Frontend: turn on light mode'
   trigger:
-    - platform: time
-      at: '06:00'
     - platform: sun
       event: sunrise
   condition: "{{ is_state('input_boolean.dark_mode', 'on') }}"

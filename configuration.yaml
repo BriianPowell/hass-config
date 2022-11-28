@@ -12,6 +12,7 @@ input_boolean: !include includes/input_booleans.yaml
 input_select: !include includes/input_selects.yaml
 
 automation: !include_dir_merge_list automations
+person: !include includes/persons.yaml
 scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
 group: !include includes/groups.yaml
@@ -29,6 +30,8 @@ lovelace:
     - url: /local/mini-graph-card-bundle.js
       type: module
     - url: /local/fold-entity-row.js
+      type: module
+    - url: /local/weather-card/weather-card.js
       type: module
 
 # Enables the API

@@ -1,0 +1,10 @@
+# Persons
+
+- name: Brian
+  id: brian
+  user_id:  d2de3d9e6f66443ab09bf66ec2ede894
+  device_trackers:
+    # iPhone 14 Pro
+    - device_tracker.boog_iphone
+    # iPhone 13
+    - device_tracker.boog_iphonework

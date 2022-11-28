@@ -1,2 +1,4 @@
+# Recorder
+
 db_url: !secret RECORDER_DATABASE_URL
 purge_keep_days: 5

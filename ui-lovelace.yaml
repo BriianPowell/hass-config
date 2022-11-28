@@ -11,6 +11,13 @@ views:
     - type: vertical-stack
       cards:
       - type: custom:sun-card
+      - type: custom:weather-card
+        entity: weather.forecast_home
+        current: true
+        details: true
+        forecast: true
+        hourly_forecast: false
+        number_of_forecasts: 2
       - type: entities
         title: Lights
         show_header_toggle: false
@@ -18,7 +25,6 @@ views:
           - type: section
             label: Living Room Lights
           - entity: group.livingroomlights
-          - entity: light.hallway_entry
           - type: section
             label: Office Lights
           - entity: light.desk
@@ -251,3 +257,58 @@ views:
             entity: input_boolean.dark_mode
             name: Dark mode
           type: custom:fold-entity-row
+  - title: Network
+    id: network
+    icon: mdi:router-network
+    cards:
+    - type: vertical-stack
+      cards:
+      - type: entities
+        name: Connectivity
+        show_header_toggle: false
+        entities:
+        - name: WAN Status
+          entity: binary_sensor.unifi_dream_machine_wan_status
+        - name: Uptime
+          entity: sensor.udm_uptime_formatted
+      - type: custom:mini-graph-card
+        name: DMP KiB/s
+        icon: mdi:router-wireless
+        hours_to_show: 24
+        points_per_hour: 3
+        line_width: 2
+        show:
+          state: true
+          labels: hover
+          points: hover
+        entities:
+          - entity: sensor.unifi_dream_machine_kib_s_received
+            name: KiB/s received
+            show_points: false
+          - entity: sensor.unifi_dream_machine_kib_s_sent
+            name: KiB/s sent
+            show_points: false
+      - type: custom:mini-graph-card
+        name: DMP Packets/s
+        icon: mdi:router-wireless
+        hours_to_show: 24
+        points_per_hour: 3
+        line_width: 2
+        show:
+          state: true
+          labels: hover
+          points: hover
+        entities:
+          - entity: sensor.unifi_dream_machine_packets_s_received
+            name: Packets/s received
+            show_points: false
+          - entity: sensor.unifi_dream_machine_packets_s_sent
+            name: Packets/s sent
+            show_points: false
+    - type: vertical-stack
+      cards:
+      - type: entities
+        title: People
+        show_header_toggle: false
+        entities:
+          - entity: person.brian
