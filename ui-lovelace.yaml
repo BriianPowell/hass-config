@@ -8,231 +8,246 @@ views:
     id: home
     icon: mdi:home
     cards:
-    - type: custom:sun-card
-    - type: entities
-      title: Monthly Power Consumption
-      entities:
-        - name: Server
-          entity: sensor.smartplug_server_1mon
-        - name: PC
-          entity: sensor.smartplug_pc_1mon
-        - name: Carlos
-          entity: sensor.smartplug_carlos_1mon
-        - name: Tony
-          entity: sensor.smartplug_tony_1mon
-    - type: custom:mini-graph-card
-      name: Power Draw - Last 2 Weeks
-      icon: mdi:lightning-bolt
-      color_thresholds_transition: smooth
-      decimals: 0
-      height: 120
-      hours_to_show: 168
-      points_per_hour: 3
-      line_width: 2
-      lower_bound: 0
-      show:
-        extrema: true
-        average: true
-        state: false
-      entities:
-        - entity: sensor.smartplug_server_1min
-          aggregate_func: avg
-          show_points: false
-        - entity: sensor.smartplug_pc_1min
-          aggregate_func: avg
-          show_points: false
-        - entity: sensor.smartplug_carlos_1min
-          aggregate_func: avg
-          show_points: false
-        - entity: sensor.smartplug_tony_1min
-          aggregate_func: avg
-          show_points: false
-    - type: entities
-      show_header_toggle: false
-      entities:
-      - entities:
-        - input_select.theme
-        - input_boolean.theme_alternative
-        head:
-          entity: input_boolean.dark_mode
-          name: Dark mode
-        type: custom:fold-entity-row
-  - title: Living Room
-    id: livingroom
-    icon: mdi:sofa
-    cards:
+    - type: vertical-stack
+      cards:
+      - type: custom:sun-card
       - type: entities
-        title: Living Room Lights
+        title: Lights
         show_header_toggle: false
         entities:
-          - entity: light.livingroom_left
-          - entity: light.livingroom_right
+          - type: section
+            label: Living Room Lights
+          - entity: group.livingroomlights
           - entity: light.hallway_entry
-  - title: Office
-    id: office
-    icon: mdi:desktop-classic
-    cards:
-    - type: entities
-      title: Office Lights
-      show_header_toggle: false
-      entities:
-        - entity: light.desk
-    - type: entities
-      title: SmartPlugs
-      show_header_toggle: false
-      entities:
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_server
-              state: 'on'
-          row:
-            type: button
-            entity: switch.smartplug_server
-            name: Server
-            action_name: Turn Off
-            tap_action:
-              action: call-service
-              service: switch.turn_off
-              target:
-                entity_id: switch.smartplug_server
-              confirmation:
-                text: Are you sure you want to turn off the switch?
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_server
-              state: 'off'
-          row:
-            type: button
-            entity: switch.smartplug_server
-            name: Server
-            action_name: Turn On
-            tap_action:
-              action: call-service
-              service: switch.turn_on
-              target:
-                entity_id: switch.smartplug_server
-              confirmation:
-                text: Are you sure you want to turn on the switch?
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_pc
-              state: 'on'
-          row:
-            type: button
-            entity: switch.smartplug_pc
-            name: PC
-            action_name: Turn Off
-            tap_action:
-              action: call-service
-              service: switch.turn_off
-              target:
-                entity_id: switch.smartplug_pc
-              confirmation:
-                text: Are you sure you want to turn off the switch?
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_pc
-              state: 'off'
-          row:
-            type: button
-            entity: switch.smartplug_pc
-            name: PC
-            action_name: Turn On
-            tap_action:
-              action: call-service
-              service: switch.turn_on
-              target:
-                entity_id: switch.smartplug_pc
-              confirmation:
-                text: Are you sure you want to turn on the switch?
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_tony
-              state: 'on'
-          row:
-            type: button
-            entity: switch.smartplug_tony
-            name: Tony
-            action_name: Turn Off
-            tap_action:
-              action: call-service
-              service: switch.turn_off
-              target:
-                entity_id: switch.smartplug_tony
-              confirmation:
-                text: Are you sure you want to turn off the switch?
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_tony
-              state: 'off'
-          row:
-            type: button
-            entity: switch.smartplug_tony
-            name: Tony
-            action_name: Turn On
-            tap_action:
-              action: call-service
-              service: switch.turn_on
-              target:
-                entity_id: switch.smartplug_tony
-              confirmation:
-                text: Are you sure you want to turn on the switch?
-  - title: Bedroom
-    id: bedroom
-    icon: mdi:bed-king
-    cards:
-    - type: entities
-      title: Bedroom Lights
-      show_header_toggle: false
-      entities:
-        - entity: light.nightstand
-        - entity: light.dresser
-  - title: Bedroom-Carlos
-    id: bedroom-carlos
-    icon: mdi:bed-queen
-    cards:
-    - type: entities
-      title: SmartPlugs
-      show_header_toggle: false
-      entities:
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_carlos
-              state: 'on'
-          row:
-            type: button
-            entity: switch.smartplug_carlos
-            name: Carlos
-            action_name: Turn Off
-            tap_action:
-              action: call-service
-              service: switch.turn_off
-              target:
-                entity_id: switch.smartplug_carlos
-              confirmation:
-                text: Are you sure you want to turn off the switch?
-        - type: conditional
-          conditions:
-            - entity: switch.smartplug_carlos
-              state: 'off'
-          row:
-            type: button
-            entity: switch.smartplug_carlos
-            name: Carlos
-            action_name: Turn On
-            tap_action:
-              action: call-service
-              service: switch.turn_on
-              target:
-                entity_id: switch.smartplug_carlos
-              confirmation:
-                text: Are you sure you want to turn on the switch?
-  - title: Frontyard
-    id: frontyard
-    icon: mdi:grass
-    cards:
+          - type: section
+            label: Office Lights
+          - entity: light.desk
+          - type: section
+            label: Bedroom Lights
+          - entity: light.nightstand
+          - entity: light.dresser
+    - type: vertical-stack
+      cards:
       - type: entities
-        title: Frontyard Lights
+        title: Monthly Power Consumption
+        entities:
+          - name: Server
+            entity: sensor.smartplug_server_1mon
+          - name: PC
+            entity: sensor.smartplug_pc_1mon
+          - name: Carlos
+            entity: sensor.smartplug_carlos_1mon
+          - name: Tony
+            entity: sensor.smartplug_tony_1mon
+      - type: entities
+        title: SmartPlugs
         show_header_toggle: false
         entities:
-          - entity: light.porch
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_server
+                state: 'on'
+            row:
+              type: button
+              entity: switch.smartplug_server
+              name: Server
+              action_name: Turn Off
+              tap_action:
+                action: call-service
+                service: switch.turn_off
+                target:
+                  entity_id: switch.smartplug_server
+                confirmation:
+                  text: Are you sure you want to turn off the switch?
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_server
+                state: 'off'
+            row:
+              type: button
+              entity: switch.smartplug_server
+              name: Server
+              action_name: Turn On
+              tap_action:
+                action: call-service
+                service: switch.turn_on
+                target:
+                  entity_id: switch.smartplug_server
+                confirmation:
+                  text: Are you sure you want to turn on the switch?
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_pc
+                state: 'on'
+            row:
+              type: button
+              entity: switch.smartplug_pc
+              name: PC
+              action_name: Turn Off
+              tap_action:
+                action: call-service
+                service: switch.turn_off
+                target:
+                  entity_id: switch.smartplug_pc
+                confirmation:
+                  text: Are you sure you want to turn off the switch?
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_pc
+                state: 'off'
+            row:
+              type: button
+              entity: switch.smartplug_pc
+              name: PC
+              action_name: Turn On
+              tap_action:
+                action: call-service
+                service: switch.turn_on
+                target:
+                  entity_id: switch.smartplug_pc
+                confirmation:
+                  text: Are you sure you want to turn on the switch?
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_tony
+                state: 'on'
+            row:
+              type: button
+              entity: switch.smartplug_tony
+              name: Tony
+              action_name: Turn Off
+              tap_action:
+                action: call-service
+                service: switch.turn_off
+                target:
+                  entity_id: switch.smartplug_tony
+                confirmation:
+                  text: Are you sure you want to turn off the switch?
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_tony
+                state: 'off'
+            row:
+              type: button
+              entity: switch.smartplug_tony
+              name: Tony
+              action_name: Turn On
+              tap_action:
+                action: call-service
+                service: switch.turn_on
+                target:
+                  entity_id: switch.smartplug_tony
+                confirmation:
+                  text: Are you sure you want to turn on the switch?
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_carlos
+                state: 'on'
+            row:
+              type: button
+              entity: switch.smartplug_carlos
+              name: Carlos
+              action_name: Turn Off
+              tap_action:
+                action: call-service
+                service: switch.turn_off
+                target:
+                  entity_id: switch.smartplug_carlos
+                confirmation:
+                  text: Are you sure you want to turn off the switch?
+          - type: conditional
+            conditions:
+              - entity: switch.smartplug_carlos
+                state: 'off'
+            row:
+              type: button
+              entity: switch.smartplug_carlos
+              name: Carlos
+              action_name: Turn On
+              tap_action:
+                action: call-service
+                service: switch.turn_on
+                target:
+                  entity_id: switch.smartplug_carlos
+                confirmation:
+                  text: Are you sure you want to turn on the switch?
+    - type: vertical-stack
+      cards:
+      - type: custom:mini-graph-card
+        name: Server Power Draw - This Week
+        icon: mdi:lightning-bolt
+        color_thresholds_transition: smooth
+        decimals: 0
+        hours_to_show: 84
+        points_per_hour: 6
+        line_width: 2
+        lower_bound: 0
+        show:
+          extrema: true
+          average: true
+          state: false
+        entities:
+          - entity: sensor.smartplug_server_1min
+            aggregate_func: avg
+            show_points: false
+      - type: custom:mini-graph-card
+        name: PC Power Draw - This Week
+        icon: mdi:lightning-bolt
+        color_thresholds_transition: smooth
+        decimals: 0
+        hours_to_show: 84
+        points_per_hour: 6
+        line_width: 2
+        lower_bound: 0
+        show:
+          extrema: true
+          average: true
+          state: false
+        entities:
+          - entity: sensor.smartplug_pc_1min
+            aggregate_func: avg
+            show_points: false
+      - type: custom:mini-graph-card
+        name: Carlos Power Draw - This Week
+        icon: mdi:lightning-bolt
+        color_thresholds_transition: smooth
+        decimals: 0
+        hours_to_show: 84
+        points_per_hour: 6
+        line_width: 2
+        lower_bound: 0
+        show:
+          extrema: true
+          average: true
+          state: false
+        entities:
+          - entity: sensor.smartplug_carlos_1min
+            aggregate_func: avg
+            show_points: false
+      - type: custom:mini-graph-card
+        name: Tony Power Draw - This Week
+        icon: mdi:lightning-bolt
+        color_thresholds_transition: smooth
+        decimals: 0
+        hours_to_show: 84
+        points_per_hour: 6
+        line_width: 2
+        lower_bound: 0
+        show:
+          extrema: true
+          average: true
+          state: false
+        entities:
+          - entity: sensor.smartplug_tony_1min
+            aggregate_func: avg
+            show_points: false
+      - type: entities
+        show_header_toggle: false
+        entities:
+        - entities:
+          - input_select.theme
+          - input_boolean.theme_alternative
+          head:
+            entity: input_boolean.dark_mode
+            name: Dark mode
+          type: custom:fold-entity-row
