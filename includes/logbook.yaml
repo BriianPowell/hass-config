@@ -1,0 +1,12 @@
+exclude:
+  domains:
+    - weather
+  entities:
+    - sun.sun
+    - sensor.last_boot
+    - sensor.date
+    - sensor.time
+  entity_globs:
+    - sensor.*_uptime
+    - sensor.uptime_*
+    - device_tracker.*
