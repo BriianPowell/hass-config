@@ -25,6 +25,7 @@ views:
           - type: section
             label: Living Room Lights
           - entity: group.livingroomlights
+          - entity: light.entry_hallway
           - type: section
             label: Office Lights
           - entity: light.desk
@@ -312,3 +313,5 @@ views:
         show_header_toggle: false
         entities:
           - entity: person.brian
+          - entity: person.carlos
+          - entity: person.tony

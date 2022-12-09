@@ -6,6 +6,7 @@ http: !include includes/http.yaml
 
 # Logging and History
 recorder: !include includes/recorder.yaml
+logbook: !include includes/logbook.yaml
 
 # Inputs
 input_boolean: !include includes/input_booleans.yaml
