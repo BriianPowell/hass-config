@@ -20,6 +20,7 @@ group: !include includes/groups.yaml
 zone: !include includes/zones.yaml
 sensor: !include includes/sensors.yaml
 homekit: !include includes/homekit.yaml
+prometheus: !include includes/prometheus.yaml
 
 # Enables Lovelave UI
 lovelace:

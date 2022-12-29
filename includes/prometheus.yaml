@@ -1,0 +1,4 @@
+namespace: hass
+filter:
+  include_domains:
+    - sensor
