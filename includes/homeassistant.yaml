@@ -4,8 +4,3 @@ longitude: !secret LOCATION_LONGITUDE
 elevation: !secret LOCATION_ELEVATION
 unit_system: us_customary
 time_zone: America/Los_Angeles
-customize:
-  light.hallway_entry:
-    supported_features: 63
-  light.porch:
-    supported_features: 63
