@@ -1,5 +1,12 @@
 # Persons
 
+
+- name: Brian
+  id: boog0005
+  user_id: beba40e0ba304b36a57337ec55529abe
+  device_trackers:
+    - device_tracker.boog
+
 # - name: Lauren
 #   id: lauren
 #   device_trackers:
