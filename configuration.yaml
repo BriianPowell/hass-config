@@ -44,3 +44,12 @@ network:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
+
+# logger:
+#   default: warning
+#   logs:
+#     homeassistant.components.homekit: debug
+#     homeassistant.components.homekit_controller: debug
+#     aiohomekit: debug
+#     coap: debug
+#     pyhap: debug

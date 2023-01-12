@@ -36,32 +36,32 @@
   max_age:
     minutes: 30
 
-# - platform: template
-#   sensors:
-#     udm_uptime_formatted:
-#       friendly_name: UniFi Dream Machine Uptime Formatted
-#       value_template: >-
-#         {% set time = (states.sensor.unifi_dream_machine_uptime.state | int) | int %}
-#         {% set minutes = ((time % 3600) / 60) | int %}
-#         {% set hours = ((time % 86400) / 3600) | int %}
-#         {% set days = (time / 86400) | int %}
+- platform: template
+  sensors:
+    udm_uptime_formatted:
+      friendly_name: UniFi Dream Machine Uptime Formatted
+      value_template: >-
+        {% set time = (states.sensor.unifi_dream_machine_uptime.state | int) | int %}
+        {% set minutes = ((time % 3600) / 60) | int %}
+        {% set hours = ((time % 86400) / 3600) | int %}
+        {% set days = (time / 86400) | int %}
 
-#         {%- if time < 60 -%}
-#           Less than a minute
-#           {%- else -%}
-#           {%- if days > 0 -%}
-#             {{ days }}d
-#           {%- endif -%}
-#           {%- if hours > 0 -%}
-#             {%- if days > 0 -%}
-#               {{ ' ' }}
-#             {%- endif -%}
-#             {{ hours }}h
-#           {%- endif -%}
-#           {%- if minutes > 0 -%}
-#             {%- if days > 0 or hours > 0 -%}
-#               {{ ' ' }}
-#             {%- endif -%}
-#             {{ minutes }}m
-#           {%- endif -%}
-#         {%- endif -%}
+        {%- if time < 60 -%}
+          Less than a minute
+          {%- else -%}
+          {%- if days > 0 -%}
+            {{ days }}d
+          {%- endif -%}
+          {%- if hours > 0 -%}
+            {%- if days > 0 -%}
+              {{ ' ' }}
+            {%- endif -%}
+            {{ hours }}h
+          {%- endif -%}
+          {%- if minutes > 0 -%}
+            {%- if days > 0 or hours > 0 -%}
+              {{ ' ' }}
+            {%- endif -%}
+            {{ minutes }}m
+          {%- endif -%}
+        {%- endif -%}

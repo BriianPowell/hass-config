@@ -3,11 +3,12 @@
 ip_ban_enabled: true
 login_attempts_threshold: 5
 use_x_forwarded_for: true
+# server_host: 0.0.0.0
 trusted_proxies:
   - 10.0.0.0/16 # Local LAN Subnet
   - 10.42.0.0/24 # Kubernetes Subnet
   - 10.43.0.0/24
-  # - ::1
-  # - fe80::/64
-  # - fe00::/64
-  # - fd00::/64
+  - ::1
+  - fe80::/64
+  - fe00::/64
+  - fd00::/64
