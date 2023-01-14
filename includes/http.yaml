@@ -1,7 +1,7 @@
 # Http configuration required for Kubernetes deployment
 
-ip_ban_enabled: true
-login_attempts_threshold: 5
+# ip_ban_enabled: true
+# login_attempts_threshold: 5
 use_x_forwarded_for: true
 # server_host: 0.0.0.0
 trusted_proxies:
