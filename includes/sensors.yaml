@@ -19,8 +19,8 @@
     minutes: 30
 
 - platform: statistics
-  name: Tony SmartPlug Power 30min
-  entity_id: sensor.smartplug_tony_1min
+  name: Extra SmartPlug Power 30min
+  entity_id: sensor.smartplug_extra_1min
   state_characteristic: mean
   precision: 0
   sampling_size: 30

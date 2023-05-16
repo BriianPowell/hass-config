@@ -10,14 +10,14 @@
 # - name: Lauren
 #   id: lauren
 #   device_trackers:
-#     - device_tracker.
+#     - device_tracker.lauren_iphone
 
 - name: Carlos
   id: carlos
   device_trackers:
     - device_tracker.carlos_iphone
 
-- name: Tony
-  id: tony
-  device_trackers:
-    - device_tracker.tony_iphone
+# - name: Nikki
+#   id: nikki
+#   device_trackers:
+#     - device_tracker.nikki_iphone

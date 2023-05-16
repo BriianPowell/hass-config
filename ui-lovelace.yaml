@@ -44,8 +44,8 @@ views:
             entity: sensor.smartplug_pc_1mon
           - name: Carlos
             entity: sensor.smartplug_carlos_1mon
-          - name: Tony
-            entity: sensor.smartplug_tony_1mon
+          - name: Extra
+            entity: sensor.smartplug_extra_1mon
       - type: entities
         title: SmartPlugs
         show_header_toggle: false
@@ -116,34 +116,34 @@ views:
                   text: Are you sure you want to turn on the switch?
           - type: conditional
             conditions:
-              - entity: switch.smartplug_tony
+              - entity: switch.smartplug_extra
                 state: 'on'
             row:
               type: button
-              entity: switch.smartplug_tony
-              name: Tony
+              entity: switch.smartplug_extra
+              name: Extra
               action_name: Turn Off
               tap_action:
                 action: call-service
                 service: switch.turn_off
                 target:
-                  entity_id: switch.smartplug_tony
+                  entity_id: switch.smartplug_extra
                 confirmation:
                   text: Are you sure you want to turn off the switch?
           - type: conditional
             conditions:
-              - entity: switch.smartplug_tony
+              - entity: switch.smartplug_extra
                 state: 'off'
             row:
               type: button
-              entity: switch.smartplug_tony
-              name: Tony
+              entity: switch.smartplug_extra
+              name: Extra
               action_name: Turn On
               tap_action:
                 action: call-service
                 service: switch.turn_on
                 target:
-                  entity_id: switch.smartplug_tony
+                  entity_id: switch.smartplug_extra
                 confirmation:
                   text: Are you sure you want to turn on the switch?
           - type: conditional
@@ -232,7 +232,7 @@ views:
             aggregate_func: avg
             show_points: false
       - type: custom:mini-graph-card
-        name: Tony Power Draw - This Week
+        name: Extra Power Draw - This Week
         icon: mdi:lightning-bolt
         color_thresholds_transition: smooth
         decimals: 0
@@ -245,7 +245,7 @@ views:
           average: true
           state: false
         entities:
-          - entity: sensor.smartplug_tony_1min
+          - entity: sensor.smartplug_extra_1min
             aggregate_func: avg
             show_points: false
       - type: entities
@@ -314,4 +314,4 @@ views:
         entities:
           - entity: person.brian
           - entity: person.carlos
-          - entity: person.tony
+          # - entity: person.tony
