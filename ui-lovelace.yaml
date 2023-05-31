@@ -25,14 +25,14 @@ views:
           - type: section
             label: Living Room Lights
           - entity: group.livingroomlights
-          - entity: light.entry_hallway
-          - type: section
-            label: Office Lights
-          - entity: light.desk
-          - type: section
-            label: Bedroom Lights
-          - entity: light.nightstand
-          - entity: light.dresser
+          # - entity: light.entry_hallway
+          # - type: section
+          #   label: Office Lights
+          # - entity: light.desk
+          # - type: section
+          #   label: Bedroom Lights
+          # - entity: light.nightstand
+          # - entity: light.dresser
     - type: vertical-stack
       cards:
       - type: entities
