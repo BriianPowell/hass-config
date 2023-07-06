@@ -44,8 +44,8 @@ views:
             entity: sensor.smartplug_pc_1mon
           - name: Carlos
             entity: sensor.smartplug_carlos_1mon
-          - name: Extra
-            entity: sensor.smartplug_extra_1mon
+          - name: Lauren
+            entity: sensor.smartplug_lauren_1mon
       - type: entities
         title: SmartPlugs
         show_header_toggle: false
@@ -116,34 +116,34 @@ views:
                   text: Are you sure you want to turn on the switch?
           - type: conditional
             conditions:
-              - entity: switch.smartplug_extra
+              - entity: switch.smartplug_lauren
                 state: 'on'
             row:
               type: button
-              entity: switch.smartplug_extra
-              name: Extra
+              entity: switch.smartplug_lauren
+              name: Lauren
               action_name: Turn Off
               tap_action:
                 action: call-service
                 service: switch.turn_off
                 target:
-                  entity_id: switch.smartplug_extra
+                  entity_id: switch.smartplug_lauren
                 confirmation:
                   text: Are you sure you want to turn off the switch?
           - type: conditional
             conditions:
-              - entity: switch.smartplug_extra
+              - entity: switch.smartplug_lauren
                 state: 'off'
             row:
               type: button
-              entity: switch.smartplug_extra
-              name: Extra
+              entity: switch.smartplug_lauren
+              name: lauren
               action_name: Turn On
               tap_action:
                 action: call-service
                 service: switch.turn_on
                 target:
-                  entity_id: switch.smartplug_extra
+                  entity_id: switch.smartplug_lauren
                 confirmation:
                   text: Are you sure you want to turn on the switch?
           - type: conditional
@@ -232,7 +232,7 @@ views:
             aggregate_func: avg
             show_points: false
       - type: custom:mini-graph-card
-        name: Extra Power Draw - This Week
+        name: Lauren Power Draw - This Week
         icon: mdi:lightning-bolt
         color_thresholds_transition: smooth
         decimals: 0
@@ -245,7 +245,7 @@ views:
           average: true
           state: false
         entities:
-          - entity: sensor.smartplug_extra_1min
+          - entity: sensor.smartplug_lauren_1min
             aggregate_func: avg
             show_points: false
       - type: entities
@@ -264,14 +264,14 @@ views:
     cards:
     - type: vertical-stack
       cards:
-      - type: entities
-        name: Connectivity
-        show_header_toggle: false
-        entities:
-        - name: WAN Status
-          entity: binary_sensor.unifi_dream_machine_wan_status
-        - name: Uptime
-          entity: sensor.udm_uptime_formatted
+      # - type: entities
+      #   name: Connectivity
+      #   show_header_toggle: false
+      #   entities:
+      #   - name: WAN Status
+      #     entity: binary_sensor.unifi_dream_machine_wan_status
+      #   - name: Uptime
+      #     entity: sensor.udm_uptime_formatted
       - type: custom:mini-graph-card
         name: DMP KiB/s
         icon: mdi:router-wireless
@@ -313,5 +313,6 @@ views:
         show_header_toggle: false
         entities:
           - entity: person.brian
+          - entity: person.lauren
           - entity: person.carlos
-          # - entity: person.tony
+          - entity: person.nicole

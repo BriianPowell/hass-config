@@ -4,20 +4,18 @@
 - name: Brian
   id: boog0005
   user_id: 1da5d785c7ee416c89e29f12dcf427bb
-  device_trackers:
-    - device_tracker.boog
 
-# - name: Lauren
-#   id: lauren
-#   device_trackers:
-#     - device_tracker.lauren_iphone
+- name: Lauren
+  id: lauren
+  device_trackers:
+    - device_tracker.lauren_iphone
 
 - name: Carlos
   id: carlos
   device_trackers:
     - device_tracker.carlos_iphone
 
-# - name: Nikki
-#   id: nikki
-#   device_trackers:
-#     - device_tracker.nikki_iphone
+- name: Nicole
+  id: nicole
+  device_trackers:
+    - device_tracker.nicole_iphone
