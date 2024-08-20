@@ -6,5 +6,4 @@ home-assistant.*
 .storage
 .HA_VERSION
 deps/*
-custom_components/*
-
+custom_components/
