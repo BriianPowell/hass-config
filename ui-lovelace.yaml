@@ -264,14 +264,14 @@ views:
     cards:
     - type: vertical-stack
       cards:
-      # - type: entities
-      #   name: Connectivity
-      #   show_header_toggle: false
-      #   entities:
-      #   - name: WAN Status
-      #     entity: binary_sensor.unifi_dream_machine_wan_status
-      #   - name: Uptime
-      #     entity: sensor.udm_uptime_formatted
+      - type: entities
+        name: Connectivity
+        show_header_toggle: false
+        entities:
+        - name: WAN Status
+          entity: binary_sensor.unifi_dream_machine_wan_status
+        - name: Uptime
+          entity: sensor.udm_uptime_formatted
       - type: custom:mini-graph-card
         name: DMP KiB/s
         icon: mdi:router-wireless
@@ -283,10 +283,10 @@ views:
           labels: hover
           points: hover
         entities:
-          - entity: sensor.unifi_dream_machine_kib_s_received
+          - entity: sensor.unifi_dream_machine_download_speed
             name: KiB/s received
             show_points: false
-          - entity: sensor.unifi_dream_machine_kib_s_sent
+          - entity: sensor.unifi_dream_machine_upload_speed
             name: KiB/s sent
             show_points: false
       - type: custom:mini-graph-card
@@ -300,10 +300,10 @@ views:
           labels: hover
           points: hover
         entities:
-          - entity: sensor.unifi_dream_machine_packets_s_received
+          - entity: sensor.unifi_dream_machine_packets_received
             name: Packets/s received
             show_points: false
-          - entity: sensor.unifi_dream_machine_packets_s_sent
+          - entity: sensor.unifi_dream_machine_packets_sent
             name: Packets/s sent
             show_points: false
     - type: vertical-stack
