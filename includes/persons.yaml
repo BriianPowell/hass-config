@@ -2,8 +2,10 @@
 
 
 - name: Brian
-  id: boog0005
+  id: brian
   user_id: 1da5d785c7ee416c89e29f12dcf427bb
+  device_trackers:
+    - device_tracker.boog
 
 - name: Lauren
   id: lauren
