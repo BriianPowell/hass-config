@@ -53,3 +53,16 @@ conversation:
 #     aiohomekit: debug
 #     coap: debug
 #     pyhap: debug
+
+template:
+- sensor:
+  - default_entity_id: sensor.udm_uptime_formatted
+    name: UniFi Dream Machine Uptime Formatted
+    state: "{% set time = (states.sensor.unifi_dream_machine_uptime.state | int) |
+      int %} {% set minutes = ((time % 3600) / 60) | int %} {% set hours = ((time
+      % 86400) / 3600) | int %} {% set days = (time / 86400) | int %}\n{%- if time
+      < 60 -%}\n  Less than a minute\n  {%- else -%}\n  {%- if days > 0 -%}\n    {{
+      days }}d\n  {%- endif -%}\n  {%- if hours > 0 -%}\n    {%- if days > 0 -%}\n
+      \     {{ ' ' }}\n    {%- endif -%}\n    {{ hours }}h\n  {%- endif -%}\n  {%-
+      if minutes > 0 -%}\n    {%- if days > 0 or hours > 0 -%}\n      {{ ' ' }}\n
+      \   {%- endif -%}\n    {{ minutes }}m\n  {%- endif -%}\n{%- endif -%}"
