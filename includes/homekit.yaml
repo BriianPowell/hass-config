@@ -7,3 +7,5 @@ filter:
   - switch
   - binary_sensor
   - sensor
+  exclude_entity_blos:
+  - binary_sensor.*_focus
