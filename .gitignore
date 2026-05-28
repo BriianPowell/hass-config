@@ -1,6 +1,7 @@
 secrets.yaml
 
 # Home Assistant Auto Generated files
+.ha_run.lock
 home-assistant.*
 .cloud
 .cache
