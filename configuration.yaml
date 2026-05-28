@@ -21,7 +21,6 @@ zone: !include includes/zones.yaml
 sensor: !include includes/sensors.yaml
 homekit: !include includes/homekit.yaml
 prometheus: !include includes/prometheus.yaml
-mqtt: !include includes/mqtt.yaml
 
 # Enables Lovelace UI
 lovelace:

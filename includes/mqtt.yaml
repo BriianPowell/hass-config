@@ -1,5 +1,0 @@
-broker: mosquitto
-port: 1883
-username: !secret MQTT_USERNAME
-password: !secret MQTT_PASSWORD
-discovery: true
