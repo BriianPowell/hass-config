@@ -21,10 +21,18 @@ zone: !include includes/zones.yaml
 sensor: !include includes/sensors.yaml
 homekit: !include includes/homekit.yaml
 prometheus: !include includes/prometheus.yaml
+mqtt: !include includes/mqtt.yaml
 
-# Enables Lovelave UI
+# Enables Lovelace UI
 lovelace:
-  mode: yaml
+  resource_mode: yaml
+  dashboards:
+    lovelace:
+      mode: yaml
+      filename: ui-lovelace.yaml
+      title: Overview
+      icon: mdi:view-dashboard
+      show_in_sidebar: true
   # Add ons for Lovelace
   resources:
     - url: /local/home-assistant-sun-card.js
