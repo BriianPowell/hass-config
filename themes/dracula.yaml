@@ -21,6 +21,7 @@ Dracula:
   light-theme-secondary-color: '#6572a0'
   primary-background-color: '#282a36'
   background-color: var(--primary-background-color)
+  lovelace-background: var(--primary-background-color)
   primary-color: var(--dracula-purple)
   primary-text-color: '#f8f8f2'
   secondary-background-color: '#343745'
@@ -122,35 +123,42 @@ Dracula:
   google-yellow-500: var(--dracula-yellow)
   disabled-text-color: var(--light-theme-disabled-color)
   # Material Colours
-  material-body-text-color: var(--light-primary-color)
+  material-body-text-color: var(--primary-text-color)
   material-disabled-color: var(--light-theme-disabled-color)
   material-divider-color: var(--divider-color)
   material-success-color: var(--dracula-green)
   material-error-color: var(--dracula-red)
+  # Form fields (HA 2026.4+)
+  ha-color-form-background: var(--secondary-background-color)
+  ha-color-form-background-hover: var(--dracula-selection)
+  ha-color-form-background-disabled: var(--primary-background-color)
   # Checkbox colours
   mdc-checkbox-disabled-color: var(--light-theme-disabled-color)
   # Dialog colours
-  mdc-dialog-content-ink-color: var(--dracula-pink)
-  mdc-dialog-heading-ink-color: var(--dracula-pink)
+  mdc-dialog-content-ink-color: var(--primary-text-color)
+  mdc-dialog-heading-ink-color: var(--primary-text-color)
   # Material Theme Colours
-  mdc-theme-background: var(--dracula-green)
-  mdc-theme-on-primary: var(--light-primary-color)
-  mdc-theme-on-secondary: var(--tertiary-background-color)
-  mdc-theme-on-surface: var(--dracula-red)
-  mdc-theme-primary: var(--primary-text-color)
-  mdc-theme-secondary: '#d2ba85'
+  mdc-theme-background: var(--primary-background-color)
+  mdc-theme-on-primary: var(--primary-text-color)
+  mdc-theme-on-secondary: var(--primary-text-color)
+  mdc-theme-on-surface: var(--primary-text-color)
+  mdc-theme-primary: var(--dracula-purple)
+  mdc-theme-secondary: var(--dracula-cyan)
   mdc-theme-text-primary-on-background: var(--primary-text-color)
   # Label Colours
   mdc-floating-label: var(--primary-text-color)
   # Text Field
   mdc-text-field: var(--primary-background-color)
-  mdc-text-field-label-ink-color: var(--primary-text-color)
+  mdc-text-field-label-ink-color: var(--secondary-text-color)
   mdc-text-field-ink-color: var(--primary-text-color)
-  mdc-text-field-fill-color: var(--tertiary-background-color)
+  mdc-text-field-fill-color: var(--secondary-background-color)
+  mdc-select-fill-color: var(--secondary-background-color)
+  mdc-select-ink-color: var(--primary-text-color)
+  mdc-select-label-ink-color: var(--secondary-text-color)
   mdc-ripple-color: var(--primary-background-color)
   # Input Field Colours
-  input-fill-color: var(--tertiary-background-color)
-  input-disabled-fill-color: var(--tertiary-background-color)
+  input-fill-color: var(--secondary-background-color)
+  input-disabled-fill-color: var(--primary-background-color)
   # Misc Colours
   error-state-color: var(--dracula-pink)
   scrollbar-thumb-color: var(--tertiary-background-color)

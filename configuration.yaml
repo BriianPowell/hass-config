@@ -10,7 +10,6 @@ logbook: !include includes/logbook.yaml
 
 # Inputs
 input_boolean: !include includes/input_booleans.yaml
-input_select: !include includes/input_selects.yaml
 
 automation: !include_dir_merge_list automations
 person: !include includes/persons.yaml

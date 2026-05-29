@@ -1,6 +1,6 @@
 # UI Lovelace
 
-background: var(--background-image)
+background: var(--lovelace-background, var(--primary-background-color))
 
 title: Huntington Beach
 
@@ -169,13 +169,8 @@ views:
         title: Appearance
         show_header_toggle: false
         entities:
-          - entities:
-              - input_select.theme
-              - input_boolean.theme_alternative
-            head:
-              entity: input_boolean.dark_mode
-              name: Dark mode
-            type: custom:fold-entity-row
+          - entity: input_boolean.dark_mode
+            name: Dark mode
 
   - title: Network
     id: network
