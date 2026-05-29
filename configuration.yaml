@@ -24,7 +24,7 @@ prometheus: !include includes/prometheus.yaml
 lovelace:
   resource_mode: yaml
   dashboards:
-    lovelace:
+    huntington-beach:
       mode: yaml
       filename: ui-lovelace.yaml
       title: Huntington Beach
