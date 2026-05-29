@@ -29,5 +29,5 @@
         {% if is_state('input_boolean.dark_mode', 'on') %}
           Dracula
         {% else %}
-          ios-light-mode-dark-green
+          ios-light-mode-blue-red
         {% endif %}
