@@ -1,35 +1,36 @@
 ---
-# Based on the Dracula colour scheme: https://github.com/dracula/dracula-theme
-# Dracula theme
-# Author: MrYadro
-# Updated by: collateral127
+# Dracula PRO palette: https://draculatheme.com/pro
 Dracula:
-  # Main Interface Colours
-  dark-primary-color: '#5194f7'
-  dark-theme-base-color: '#f8f8f2'
-  dracula-cyan: '#8be9fd'
-  dracula-green: '#50fa7b'
-  dracula-orange: '#ffb86c'
-  dracula-pink: '#ff79c6'
-  dracula-purple: '#bd93f9'
-  dracula-red: '#ff5555'
-  dracula-yellow: '#f1fa8c'
-  dracula-selection: '#44475a'
-  dracula-selected-text: '#f8f8f3'
-  light-primary-color: '#6572a0'
-  light-theme-disabled-color: '#6272a4'
-  light-theme-secondary-color: '#6572a0'
-  primary-background-color: '#282a36'
+  # Dracula PRO palette
+  dracula-foreground: '#F8F8F2'
+  dracula-cyan: '#80FFEA'
+  dracula-green: '#8AFF80'
+  dracula-orange: '#FFCA80'
+  dracula-pink: '#FF80BF'
+  dracula-purple: '#9580FF'
+  dracula-red: '#FF9580'
+  dracula-yellow: '#FFFF80'
+  dracula-background: '#22212C'
+  dracula-comment: '#7970A9'
+  dracula-selection: '#454158'
+  # Derived / legacy aliases
+  dark-primary-color: var(--dracula-purple)
+  dark-theme-base-color: var(--dracula-foreground)
+  dracula-selected-text: var(--dracula-foreground)
+  light-primary-color: var(--dracula-comment)
+  light-theme-disabled-color: var(--dracula-comment)
+  light-theme-secondary-color: var(--dracula-comment)
+  primary-background-color: var(--dracula-background)
   background-color: var(--primary-background-color)
   lovelace-background: var(--primary-background-color)
   primary-color: var(--dracula-purple)
-  primary-text-color: '#f8f8f2'
-  secondary-background-color: '#343745'
-  tertiary-background-color: '#21222b'
-  secondary-text-color: '#6572a0'
-  text-primary-color: '#f8f8f2'
-  divider-color: '#191a20'
-  unknown-color: '#777775'
+  primary-text-color: var(--dracula-foreground)
+  secondary-background-color: var(--dracula-selection)
+  tertiary-background-color: var(--dracula-background)
+  secondary-text-color: var(--dracula-comment)
+  text-primary-color: var(--dracula-foreground)
+  divider-color: '#353447'
+  unknown-color: var(--dracula-comment)
   accent-color: var(--primary-color)
   # Header Colours
   app-header-background-color: var(--tertiary-background-color)
