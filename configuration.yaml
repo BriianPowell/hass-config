@@ -16,7 +16,6 @@ automation: !include_dir_merge_list automations
 person: !include includes/persons.yaml
 scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
-group: !include includes/groups.yaml
 zone: !include includes/zones.yaml
 sensor: !include includes/sensors.yaml
 homekit: !include includes/homekit.yaml
@@ -29,7 +28,7 @@ lovelace:
     lovelace:
       mode: yaml
       filename: ui-lovelace.yaml
-      title: Overview
+      title: Huntington Beach
       icon: mdi:view-dashboard
       show_in_sidebar: true
   # Add ons for Lovelace

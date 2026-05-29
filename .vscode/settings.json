@@ -11,5 +11,14 @@
     "docker-compose.*.yaml": "yaml",
     "esphome/**/*.yml": "esphome",
     "esphome/**/*.yaml": "esphome"
-  }
+  },
+  "yaml.customTags": [
+    "!env_var scalar",
+    "!include scalar",
+    "!include_dir_list scalar",
+    "!include_dir_merge_list scalar",
+    "!include_dir_merge_named scalar",
+    "!include_dir_named scalar",
+    "!secret scalar"
+  ]
 }

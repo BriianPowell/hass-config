@@ -3,316 +3,235 @@
 background: var(--background-image)
 
 title: Huntington Beach
+
 views:
   - title: Home
     id: home
     icon: mdi:home
     cards:
-    - type: vertical-stack
-      cards:
-      - type: custom:sun-card
-      - type: custom:weather-card
-        entity: weather.forecast_home
-        current: true
-        details: true
-        forecast: true
-        hourly_forecast: false
-        number_of_forecasts: 2
-      - type: entities
-        title: Lights
-        show_header_toggle: false
-        entities:
-          - type: section
-            label: Living Room Lights
-          - entity: group.livingroomlights
-          # - entity: light.entry_hallway
-          # - type: section
-          #   label: Office Lights
-          # - entity: light.desk
-          # - type: section
-          #   label: Bedroom Lights
-          # - entity: light.nightstand
-          # - entity: light.dresser
-    - type: vertical-stack
-      cards:
-      - type: entities
-        title: Monthly Power Consumption
-        entities:
-          - name: Server
-            entity: sensor.smartplug_server_1mon
-          - name: PC
-            entity: sensor.smartplug_pc_1mon
-          - name: Carlos
-            entity: sensor.smartplug_carlos_1mon
-          - name: Lauren
-            entity: sensor.smartplug_lauren_1mon
-      - type: entities
-        title: SmartPlugs
-        show_header_toggle: false
-        entities:
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_server
-                state: 'on'
-            row:
-              type: button
-              entity: switch.smartplug_server
-              name: Server
-              action_name: Turn Off
-              tap_action:
-                action: call-service
-                service: switch.turn_off
-                target:
-                  entity_id: switch.smartplug_server
-                confirmation:
-                  text: Are you sure you want to turn off the switch?
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_server
-                state: 'off'
-            row:
-              type: button
-              entity: switch.smartplug_server
-              name: Server
-              action_name: Turn On
-              tap_action:
-                action: call-service
-                service: switch.turn_on
-                target:
-                  entity_id: switch.smartplug_server
-                confirmation:
-                  text: Are you sure you want to turn on the switch?
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_pc
-                state: 'on'
-            row:
-              type: button
-              entity: switch.smartplug_pc
-              name: PC
-              action_name: Turn Off
-              tap_action:
-                action: call-service
-                service: switch.turn_off
-                target:
-                  entity_id: switch.smartplug_pc
-                confirmation:
-                  text: Are you sure you want to turn off the switch?
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_pc
-                state: 'off'
-            row:
-              type: button
-              entity: switch.smartplug_pc
-              name: PC
-              action_name: Turn On
-              tap_action:
-                action: call-service
-                service: switch.turn_on
-                target:
-                  entity_id: switch.smartplug_pc
-                confirmation:
-                  text: Are you sure you want to turn on the switch?
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_lauren
-                state: 'on'
-            row:
-              type: button
-              entity: switch.smartplug_lauren
-              name: Lauren
-              action_name: Turn Off
-              tap_action:
-                action: call-service
-                service: switch.turn_off
-                target:
-                  entity_id: switch.smartplug_lauren
-                confirmation:
-                  text: Are you sure you want to turn off the switch?
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_lauren
-                state: 'off'
-            row:
-              type: button
-              entity: switch.smartplug_lauren
-              name: lauren
-              action_name: Turn On
-              tap_action:
-                action: call-service
-                service: switch.turn_on
-                target:
-                  entity_id: switch.smartplug_lauren
-                confirmation:
-                  text: Are you sure you want to turn on the switch?
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_carlos
-                state: 'on'
-            row:
-              type: button
-              entity: switch.smartplug_carlos
-              name: Carlos
-              action_name: Turn Off
-              tap_action:
-                action: call-service
-                service: switch.turn_off
-                target:
-                  entity_id: switch.smartplug_carlos
-                confirmation:
-                  text: Are you sure you want to turn off the switch?
-          - type: conditional
-            conditions:
-              - entity: switch.smartplug_carlos
-                state: 'off'
-            row:
-              type: button
-              entity: switch.smartplug_carlos
-              name: Carlos
-              action_name: Turn On
-              tap_action:
-                action: call-service
-                service: switch.turn_on
-                target:
-                  entity_id: switch.smartplug_carlos
-                confirmation:
-                  text: Are you sure you want to turn on the switch?
-    - type: vertical-stack
-      cards:
-      - type: custom:mini-graph-card
-        name: Server Power Draw - This Week
-        icon: mdi:lightning-bolt
-        color_thresholds_transition: smooth
-        decimals: 0
-        hours_to_show: 84
-        points_per_hour: 6
-        line_width: 2
-        lower_bound: 0
-        show:
-          extrema: true
-          average: true
-          state: false
+      - type: horizontal-stack
+        cards:
+          - type: custom:sun-card
+          - type: custom:weather-card
+            entity: weather.forecast_home
+            current: true
+            details: true
+            forecast: false
+            hourly_forecast: false
+
+      - type: glance
+        title: Live Power
+        show_name: true
+        show_state: true
+        show_icon: true
+        columns: 4
         entities:
           - entity: sensor.smartplug_server_1min
-            aggregate_func: avg
-            show_points: false
-      - type: custom:mini-graph-card
-        name: PC Power Draw - This Week
-        icon: mdi:lightning-bolt
-        color_thresholds_transition: smooth
-        decimals: 0
-        hours_to_show: 84
-        points_per_hour: 6
-        line_width: 2
-        lower_bound: 0
-        show:
-          extrema: true
-          average: true
-          state: false
-        entities:
+            name: Server
+            icon: mdi:server
           - entity: sensor.smartplug_pc_1min
-            aggregate_func: avg
-            show_points: false
-      - type: custom:mini-graph-card
-        name: Carlos Power Draw - This Week
-        icon: mdi:lightning-bolt
-        color_thresholds_transition: smooth
-        decimals: 0
-        hours_to_show: 84
-        points_per_hour: 6
-        line_width: 2
-        lower_bound: 0
-        show:
-          extrema: true
-          average: true
-          state: false
-        entities:
+            name: PC
+            icon: mdi:desktop-tower
           - entity: sensor.smartplug_carlos_1min
-            aggregate_func: avg
-            show_points: false
-      - type: custom:mini-graph-card
-        name: Lauren Power Draw - This Week
-        icon: mdi:lightning-bolt
-        color_thresholds_transition: smooth
-        decimals: 0
-        hours_to_show: 84
-        points_per_hour: 6
-        line_width: 2
-        lower_bound: 0
-        show:
-          extrema: true
-          average: true
-          state: false
-        entities:
+            name: Carlos
+            icon: mdi:bed
           - entity: sensor.smartplug_lauren_1min
-            aggregate_func: avg
-            show_points: false
+            name: Lauren
+            icon: mdi:bed
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: entities
+            title: Smart Plugs
+            show_header_toggle: false
+            entities:
+              - entity: switch.smartplug_server
+                name: Server
+                tap_action:
+                  action: toggle
+                  confirmation:
+                    text: Are you sure you want to toggle the server plug?
+              - entity: switch.smartplug_pc
+                name: PC
+              - entity: switch.smartplug_carlos
+                name: Carlos
+              - entity: switch.smartplug_lauren
+                name: Lauren
+          - type: entities
+            title: Monthly Usage
+            show_header_toggle: false
+            entities:
+              - name: Server
+                entity: sensor.smartplug_server_1mon
+              - name: PC
+                entity: sensor.smartplug_pc_1mon
+              - name: Carlos
+                entity: sensor.smartplug_carlos_1mon
+              - name: Lauren
+                entity: sensor.smartplug_lauren_1mon
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:mini-graph-card
+            name: Server
+            icon: mdi:server
+            hours_to_show: 168
+            points_per_hour: 4
+            line_width: 2
+            height: 110
+            lower_bound: 0
+            decimals: 0
+            color_thresholds_transition: smooth
+            show:
+              extrema: true
+              average: true
+              state: false
+              labels: false
+              legend: false
+            entities:
+              - entity: sensor.smartplug_server_1min
+                name: Server
+                color: "#64b5f6"
+                aggregate_func: avg
+                show_points: false
+          - type: custom:mini-graph-card
+            name: PC
+            icon: mdi:desktop-tower
+            hours_to_show: 168
+            points_per_hour: 4
+            line_width: 2
+            height: 110
+            lower_bound: 0
+            decimals: 0
+            color_thresholds_transition: smooth
+            show:
+              extrema: true
+              average: true
+              state: false
+              labels: false
+              legend: false
+            entities:
+              - entity: sensor.smartplug_pc_1min
+                name: PC
+                color: "#ffb74d"
+                aggregate_func: avg
+                show_points: false
+          - type: custom:mini-graph-card
+            name: Carlos
+            icon: mdi:bed
+            hours_to_show: 168
+            points_per_hour: 4
+            line_width: 2
+            height: 110
+            lower_bound: 0
+            decimals: 0
+            color_thresholds_transition: smooth
+            show:
+              extrema: true
+              average: true
+              state: false
+              labels: false
+              legend: false
+            entities:
+              - entity: sensor.smartplug_carlos_1min
+                name: Carlos
+                color: "#81c784"
+                aggregate_func: avg
+                show_points: false
+          - type: custom:mini-graph-card
+            name: Lauren
+            icon: mdi:bed
+            hours_to_show: 168
+            points_per_hour: 4
+            line_width: 2
+            height: 110
+            lower_bound: 0
+            decimals: 0
+            color_thresholds_transition: smooth
+            show:
+              extrema: true
+              average: true
+              state: false
+              labels: false
+              legend: false
+            entities:
+              - entity: sensor.smartplug_lauren_1min
+                name: Lauren
+                color: "#ce93d8"
+                aggregate_func: avg
+                show_points: false
+
       - type: entities
+        title: Appearance
         show_header_toggle: false
         entities:
-        - entities:
-          - input_select.theme
-          - input_boolean.theme_alternative
-          head:
-            entity: input_boolean.dark_mode
-            name: Dark mode
-          type: custom:fold-entity-row
+          - entities:
+              - input_select.theme
+              - input_boolean.theme_alternative
+            head:
+              entity: input_boolean.dark_mode
+              name: Dark mode
+            type: custom:fold-entity-row
+
   - title: Network
     id: network
     icon: mdi:router-network
     cards:
-    - type: vertical-stack
-      cards:
       - type: entities
-        name: Connectivity
+        title: Connectivity
         show_header_toggle: false
         entities:
-        - name: WAN Status
-          entity: binary_sensor.unifi_dream_machine_wan_status
-        - name: Uptime
-          entity: sensor.udm_uptime_formatted
-      - type: custom:mini-graph-card
-        name: DMP KiB/s
-        icon: mdi:router-wireless
-        hours_to_show: 24
-        points_per_hour: 3
-        line_width: 2
-        show:
-          state: true
-          labels: hover
-          points: hover
-        entities:
-          - entity: sensor.unifi_dream_machine_download_speed
-            name: KiB/s received
-            show_points: false
-          - entity: sensor.unifi_dream_machine_upload_speed
-            name: KiB/s sent
-            show_points: false
-      - type: custom:mini-graph-card
-        name: DMP Packets/s
-        icon: mdi:router-wireless
-        hours_to_show: 24
-        points_per_hour: 3
-        line_width: 2
-        show:
-          state: true
-          labels: hover
-          points: hover
-        entities:
-          - entity: sensor.unifi_dream_machine_packets_received
-            name: Packets/s received
-            show_points: false
-          - entity: sensor.unifi_dream_machine_packets_sent
-            name: Packets/s sent
-            show_points: false
-    - type: vertical-stack
-      cards:
-      - type: entities
-        title: People
-        show_header_toggle: false
-        entities:
+          - name: WAN Status
+            entity: binary_sensor.unifi_dream_machine_wan_status
+          - name: Uptime
+            entity: sensor.udm_uptime_formatted
           - entity: person.brian
-          - entity: person.lauren
-          - entity: person.carlos
-          - entity: person.nicole
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:mini-graph-card
+            name: DMP KiB/s
+            icon: mdi:router-wireless
+            hours_to_show: 24
+            points_per_hour: 3
+            line_width: 2
+            height: 120
+            show:
+              state: true
+              labels: hover
+              points: hover
+            entities:
+              - entity: sensor.unifi_dream_machine_download_speed
+                name: KiB/s received
+                color: "#64b5f6"
+                show_points: false
+              - entity: sensor.unifi_dream_machine_upload_speed
+                name: KiB/s sent
+                color: "#ffb74d"
+                show_points: false
+          - type: custom:mini-graph-card
+            name: DMP Packets/s
+            icon: mdi:router-wireless
+            hours_to_show: 24
+            points_per_hour: 3
+            line_width: 2
+            height: 120
+            show:
+              state: true
+              labels: hover
+              points: hover
+            entities:
+              - entity: sensor.unifi_dream_machine_packets_received
+                name: Packets/s received
+                color: "#64b5f6"
+                show_points: false
+              - entity: sensor.unifi_dream_machine_packets_sent
+                name: Packets/s sent
+                color: "#ffb74d"
+                show_points: false

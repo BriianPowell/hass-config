@@ -1,8 +1,0 @@
-# Groups
-
-livingroomlights:
-    name: "Wall Lights"
-    icon: mdi:lightbulb-group
-    entities:
-      - light.livingroom_left
-      - light.livingroom_right
