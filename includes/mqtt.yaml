@@ -1,8 +1,4 @@
-broker: abaddon
-port: 1883
-username: !secret MQTT_USERNAME
-password: !secret MQTT_PASSWORD
-
+# Broker host/credentials: Settings → Devices & services → MQTT (not configuration.yaml).
 sensor:
   - name: "Brian on air"
     unique_id: on_air_brian_mac
