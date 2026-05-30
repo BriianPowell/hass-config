@@ -17,6 +17,7 @@ scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
 zone: !include includes/zones.yaml
 sensor: !include includes/sensors.yaml
+mqtt: !include includes/mqtt.yaml
 homekit: !include includes/homekit.yaml
 prometheus: !include includes/prometheus.yaml
 

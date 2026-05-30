@@ -20,6 +20,21 @@ views:
             hourly_forecast: false
 
       - type: glance
+        title: On Air
+        show_name: true
+        show_state: true
+        show_icon: true
+        columns: 2
+        state_color: true
+        entities:
+          - entity: sensor.brian_on_air
+            name: Brian
+            icon: mdi:broadcast
+          - entity: sensor.lauren_on_air
+            name: Lauren
+            icon: mdi:broadcast
+
+      - type: glance
         title: Live Power
         show_name: true
         show_state: true

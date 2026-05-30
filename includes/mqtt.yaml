@@ -1,0 +1,19 @@
+broker: abaddon
+port: 1883
+username: !secret MQTT_USERNAME
+password: !secret MQTT_PASSWORD
+
+sensor:
+  - name: "Brian on air"
+    unique_id: on_air_brian_mac
+    state_topic: "on-air/brian-mac"
+    value_template: "{{ value_json.mic_active or value_json.camera_active }}"
+    json_attributes_topic: "on-air/brian-mac"
+    json_attributes_template: "{{ value_json | tojson }}"
+
+  - name: "Lauren on air"
+    unique_id: on_air_lauren_win
+    state_topic: "on-air/lauren-win"
+    value_template: "{{ value_json.mic_active or value_json.camera_active }}"
+    json_attributes_topic: "on-air/lauren-win"
+    json_attributes_template: "{{ value_json | tojson }}"
