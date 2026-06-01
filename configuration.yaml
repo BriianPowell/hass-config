@@ -79,7 +79,10 @@ template:
         {%- if hours > 0 -%}{% if days > 0 %} {% endif %}{{ hours }}h{%- endif -%}
         {%- if minutes > 0 -%}{% if days > 0 or hours > 0 %} {% endif %}{{ minutes }}m{%- endif -%}
       {%- endif -%}
-  - !include includes/template_dmp_wan.yaml
+
+- sensor: !include includes/template_dmp_wan.yaml
+
+- sensor:
   # WiFi client groups (includes/wifi_client_groups.yaml) — overview + uncategorized bucket.
   - default_entity_id: sensor.wifi_clients_overview
     name: WiFi Clients Overview
