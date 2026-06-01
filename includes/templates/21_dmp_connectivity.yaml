@@ -1,0 +1,132 @@
+# WAN connectivity and packet-rate template entities (includes/templates/).
+# Normalizes UniFi entity renames and duplicate integration suffixes (_2).
+
+- binary_sensor:
+  - default_entity_id: binary_sensor.dmp_wan_online
+    name: DMP WAN Online
+    device_class: connectivity
+    icon: mdi:wan
+    availability: >-
+      {% set candidates = [
+        'binary_sensor.boog_dmp_wan_status',
+        'binary_sensor.boog_dmp_wan_status_2',
+        'binary_sensor.boog_dmp_wan1',
+        'binary_sensor.boog_dmp_wan1_2',
+        'binary_sensor.boog_dmp_wan1_internet',
+        'binary_sensor.boog_dmp_wan1_internet_2',
+        'binary_sensor.unifi_dream_machine_wan_status',
+        'sensor.boog_dmp_wan1',
+        'sensor.boog_dmp_wan1_2',
+        'sensor.boog_dmp_wan_status',
+        'sensor.unifi_dream_machine_wan1',
+      ] %}
+      {% set ns = namespace(ok=false) %}
+      {% for e in candidates %}
+        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.ok = true %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.ok }}
+    state: >-
+      {% set ns = namespace(result=none) %}
+      {% set binary = [
+        'binary_sensor.boog_dmp_wan_status',
+        'binary_sensor.boog_dmp_wan_status_2',
+        'binary_sensor.boog_dmp_wan1',
+        'binary_sensor.boog_dmp_wan1_2',
+        'binary_sensor.boog_dmp_wan1_internet',
+        'binary_sensor.boog_dmp_wan1_internet_2',
+        'binary_sensor.unifi_dream_machine_wan_status',
+      ] %}
+      {% for e in binary %}
+        {% if ns.result is none and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.result = (states(e) == 'on') %}
+        {% endif %}
+      {% endfor %}
+      {% if ns.result is none %}
+        {% set enum = [
+          'sensor.boog_dmp_wan1',
+          'sensor.boog_dmp_wan1_2',
+          'sensor.boog_dmp_wan_status',
+          'sensor.unifi_dream_machine_wan1',
+        ] %}
+        {% for e in enum %}
+          {% if ns.result is none and states(e) not in ['unknown', 'unavailable', ''] %}
+            {% set ns.result = (states(e) | lower in ['online', 'ok', 'connected', 'up']) %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {{ ns.result if ns.result is not none else false }}
+
+- sensor:
+  - default_entity_id: sensor.dmp_wan_packets_received
+    name: DMP WAN Packets/s Received
+    unit_of_measurement: packets/s
+    state_class: measurement
+    icon: mdi:download
+    availability: >-
+      {% set candidates = [
+        'sensor.boog_dmp_packets_received',
+        'sensor.boog_dmp_packets_received_2',
+        'sensor.unifi_dream_machine_packets_received',
+        'sensor.boog_dmp_packets_s_received',
+        'sensor.unifi_dream_machine_packets_s_received',
+      ] %}
+      {% set ns = namespace(ok=false) %}
+      {% for e in candidates %}
+        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.ok = true %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.ok }}
+    state: >-
+      {% set candidates = [
+        'sensor.boog_dmp_packets_received',
+        'sensor.boog_dmp_packets_received_2',
+        'sensor.unifi_dream_machine_packets_received',
+        'sensor.boog_dmp_packets_s_received',
+        'sensor.unifi_dream_machine_packets_s_received',
+      ] %}
+      {% set ns = namespace(v=none) %}
+      {% for e in candidates %}
+        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.v = states(e) | float(0) %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.v if ns.v is not none else 0 }}
+
+  - default_entity_id: sensor.dmp_wan_packets_sent
+    name: DMP WAN Packets/s Sent
+    unit_of_measurement: packets/s
+    state_class: measurement
+    icon: mdi:upload
+    availability: >-
+      {% set candidates = [
+        'sensor.boog_dmp_packets_sent',
+        'sensor.boog_dmp_packets_sent_2',
+        'sensor.unifi_dream_machine_packets_sent',
+        'sensor.boog_dmp_packets_s_sent',
+        'sensor.unifi_dream_machine_packets_s_sent',
+      ] %}
+      {% set ns = namespace(ok=false) %}
+      {% for e in candidates %}
+        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.ok = true %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.ok }}
+    state: >-
+      {% set candidates = [
+        'sensor.boog_dmp_packets_sent',
+        'sensor.boog_dmp_packets_sent_2',
+        'sensor.unifi_dream_machine_packets_sent',
+        'sensor.boog_dmp_packets_s_sent',
+        'sensor.unifi_dream_machine_packets_s_sent',
+      ] %}
+      {% set ns = namespace(v=none) %}
+      {% for e in candidates %}
+        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.v = states(e) | float(0) %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.v if ns.v is not none else 0 }}

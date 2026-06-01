@@ -201,7 +201,7 @@ views:
         show_header_toggle: false
         entities:
           - name: WAN Status
-            entity: binary_sensor.boog_dmp_wan_status
+            entity: binary_sensor.dmp_wan_online
 
       - type: entities
         title: Gateway
@@ -286,11 +286,11 @@ views:
               labels: hover
               points: hover
             entities:
-              - entity: sensor.boog_dmp_packets_received
+              - entity: sensor.dmp_wan_packets_received
                 name: Packets/s received
                 color: "#64b5f6"
                 show_points: false
-              - entity: sensor.boog_dmp_packets_sent
+              - entity: sensor.dmp_wan_packets_sent
                 name: Packets/s sent
                 color: "#ffb74d"
                 show_points: false

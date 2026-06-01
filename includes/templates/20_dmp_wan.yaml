@@ -190,67 +190,47 @@
   - default_entity_id: sensor.dmp_wan_latency_ms
     name: DMP WAN Latency
     unit_of_measurement: ms
-    device_class: duration
     state_class: measurement
     icon: mdi:speedometer
-    availability: >-
-      {% set candidates = [
-        'sensor.boog_dmp_google_wan_latency',
-        'sensor.boog_dmp_google_wan_latency_2',
-        'sensor.unifi_dream_machine_google_wan_latency',
-        'sensor.boog_dmp_cloudflare_wan_latency',
-        'sensor.boog_dmp_cloudflare_wan_latency_2',
-        'sensor.unifi_dream_machine_cloudflare_wan_latency',
-        'sensor.boog_dmp_microsoft_wan_latency',
-        'sensor.boog_dmp_microsoft_wan_latency_2',
-        'sensor.unifi_dream_machine_microsoft_wan_latency'
-      ] %}
-      {% set ns = namespace(ok=false) %}
-      {% for e in candidates %}
-        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.ok = true %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.ok }}
     state: >-
       {% set candidates = [
         'sensor.boog_dmp_google_wan_latency',
-        'sensor.boog_dmp_google_wan_latency_2',
-        'sensor.unifi_dream_machine_google_wan_latency',
         'sensor.boog_dmp_cloudflare_wan_latency',
-        'sensor.boog_dmp_cloudflare_wan_latency_2',
-        'sensor.unifi_dream_machine_cloudflare_wan_latency',
         'sensor.boog_dmp_microsoft_wan_latency',
+        'sensor.boog_dmp_google_wan_latency_2',
+        'sensor.boog_dmp_cloudflare_wan_latency_2',
         'sensor.boog_dmp_microsoft_wan_latency_2',
-        'sensor.unifi_dream_machine_microsoft_wan_latency'
+        'sensor.unifi_dream_machine_google_wan_latency',
+        'sensor.unifi_dream_machine_cloudflare_wan_latency',
+        'sensor.unifi_dream_machine_microsoft_wan_latency',
       ] %}
       {% set ns = namespace(v=none) %}
       {% for e in candidates %}
-        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', ''] %}
+        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', 'none', ''] %}
           {% set ns.v = states(e) | float(0) %}
         {% endif %}
       {% endfor %}
-      {{ ns.v if ns.v is not none else 0 }}
+      {{ ns.v if ns.v is not none else 'unknown' }}
     attributes:
       source_entity: >-
         {% set candidates = [
           'sensor.boog_dmp_google_wan_latency',
-          'sensor.boog_dmp_google_wan_latency_2',
-          'sensor.unifi_dream_machine_google_wan_latency',
           'sensor.boog_dmp_cloudflare_wan_latency',
-          'sensor.boog_dmp_cloudflare_wan_latency_2',
-          'sensor.unifi_dream_machine_cloudflare_wan_latency',
           'sensor.boog_dmp_microsoft_wan_latency',
+          'sensor.boog_dmp_google_wan_latency_2',
+          'sensor.boog_dmp_cloudflare_wan_latency_2',
           'sensor.boog_dmp_microsoft_wan_latency_2',
-          'sensor.unifi_dream_machine_microsoft_wan_latency'
+          'sensor.unifi_dream_machine_google_wan_latency',
+          'sensor.unifi_dream_machine_cloudflare_wan_latency',
+          'sensor.unifi_dream_machine_microsoft_wan_latency',
         ] %}
         {% set ns = namespace(e='') %}
         {% for c in candidates %}
-          {% if ns.e == '' and states(c) not in ['unknown', 'unavailable', ''] %}
+          {% if ns.e == '' and states(c) not in ['unknown', 'unavailable', 'none', ''] %}
             {% set ns.e = c %}
           {% endif %}
         {% endfor %}
-        {{ ns.e if ns.e != '' else 'Enable WAN latency in UniFi' }}
+        {{ ns.e if ns.e != '' else 'none' }}
 
   - default_entity_id: sensor.dmp_wan_public_ip
     name: DMP WAN IP
