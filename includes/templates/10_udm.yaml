@@ -1,0 +1,16 @@
+- sensor:
+  - default_entity_id: sensor.udm_uptime_formatted
+    name: UniFi Dream Machine Uptime Formatted
+    state: >-
+      {% set uptime_entity = 'sensor.boog_dmp_uptime' if states('sensor.boog_dmp_uptime') not in ['unknown', 'unavailable'] else 'sensor.unifi_dream_machine_uptime' %}
+      {% set time = states(uptime_entity) | int(0) %}
+      {% set minutes = ((time % 3600) / 60) | int %}
+      {% set hours = ((time % 86400) / 3600) | int %}
+      {% set days = (time / 86400) | int %}
+      {%- if time < 60 -%}
+        Less than a minute
+      {%- else -%}
+        {%- if days > 0 -%}{{ days }}d{%- endif -%}
+        {%- if hours > 0 -%}{% if days > 0 %} {% endif %}{{ hours }}h{%- endif -%}
+        {%- if minutes > 0 -%}{% if days > 0 or hours > 0 %} {% endif %}{{ minutes }}m{%- endif -%}
+      {%- endif -%}

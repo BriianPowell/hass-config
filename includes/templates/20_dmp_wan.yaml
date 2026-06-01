@@ -1,4 +1,4 @@
-# DMP WAN template sensors — included as a template block from configuration.yaml.
+# DMP WAN template sensors (merged via includes/templates/).
 # Normalizes UniFi rate units to KiB/s, then Mbit/s for display / monthly averages.
 
 - sensor:

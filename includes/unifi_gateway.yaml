@@ -1,4 +1,4 @@
-# UniFi gateway entity IDs used by WAN templates and integration sensors.
+# UniFi gateway entity IDs used by WAN templates (includes/templates/20_dmp_wan.yaml) and integration sensors.
 # If your device slug changes, update these lists (Developer tools → States).
 #
 # Latency: enable Google/Cloudflare/Microsoft WAN latency on the gateway in

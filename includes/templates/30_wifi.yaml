@@ -1,0 +1,80 @@
+- sensor:
+  - default_entity_id: sensor.wifi_clients_overview
+    name: WiFi Clients Overview
+    icon: mdi:wifi
+    state: >-
+      {% set members =
+        expand('group.wifi_people') | list +
+        expand('group.wifi_computers') | list +
+        expand('group.wifi_media') | list +
+        expand('group.wifi_iot') | list +
+        expand('group.wifi_guest') | list
+      %}
+      {% set online = members | selectattr('state', 'eq', 'home') | list | count %}
+      {{ online }} online · {{ members | count }} tracked
+    attributes:
+      people: >-
+        {% set m = expand('group.wifi_people') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      computers: >-
+        {% set m = expand('group.wifi_computers') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      media: >-
+        {% set m = expand('group.wifi_media') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      iot: >-
+        {% set m = expand('group.wifi_iot') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      guest: >-
+        {% set m = expand('group.wifi_guest') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+  - default_entity_id: sensor.wifi_uncategorized_online
+    name: WiFi Uncategorized Online
+    icon: mdi:help-circle-outline
+    state: >-
+      {% set tracked_ids =
+        expand('group.wifi_people') | map(attribute='entity_id') | list +
+        expand('group.wifi_computers') | map(attribute='entity_id') | list +
+        expand('group.wifi_media') | map(attribute='entity_id') | list +
+        expand('group.wifi_iot') | map(attribute='entity_id') | list +
+        expand('group.wifi_guest') | map(attribute='entity_id') | list
+      %}
+      {% set loose = states.device_tracker
+        | selectattr('attributes.source_type', 'eq', 'router')
+        | rejectattr('entity_id', 'in', tracked_ids)
+        | selectattr('state', 'eq', 'home')
+        | list
+      %}
+      {{ loose | count }}
+    attributes:
+      devices: >-
+        {% set tracked_ids =
+          expand('group.wifi_people') | map(attribute='entity_id') | list +
+          expand('group.wifi_computers') | map(attribute='entity_id') | list +
+          expand('group.wifi_media') | map(attribute='entity_id') | list +
+          expand('group.wifi_iot') | map(attribute='entity_id') | list +
+          expand('group.wifi_guest') | map(attribute='entity_id') | list
+        %}
+        {% set loose = states.device_tracker
+          | selectattr('attributes.source_type', 'eq', 'router')
+          | rejectattr('entity_id', 'in', tracked_ids)
+          | selectattr('state', 'eq', 'home')
+          | map(attribute='name')
+          | list
+        %}
+        {{ loose | join(', ') if loose | count > 0 else 'None' }}
+      entity_ids: >-
+        {% set tracked_ids =
+          expand('group.wifi_people') | map(attribute='entity_id') | list +
+          expand('group.wifi_computers') | map(attribute='entity_id') | list +
+          expand('group.wifi_media') | map(attribute='entity_id') | list +
+          expand('group.wifi_iot') | map(attribute='entity_id') | list +
+          expand('group.wifi_guest') | map(attribute='entity_id') | list
+        %}
+        {{ states.device_tracker
+          | selectattr('attributes.source_type', 'eq', 'router')
+          | rejectattr('entity_id', 'in', tracked_ids)
+          | selectattr('state', 'eq', 'home')
+          | map(attribute='entity_id')
+          | list
+        }}
