@@ -197,16 +197,61 @@ views:
         entities:
           - name: WAN Status
             entity: binary_sensor.unifi_dream_machine_wan_status
-          - name: Uptime
-            entity: sensor.udm_uptime_formatted
           - entity: person.brian
+
+      - type: entities
+        title: Gateway
+        show_header_toggle: false
+        entities:
+          - entity: sensor.unifi_dream_machine_cpu_utilization
+            name: CPU
+            icon: mdi:cpu-64-bit
+          - entity: sensor.unifi_dream_machine_memory_utilization
+            name: Memory
+            icon: mdi:memory
+          - entity: sensor.udm_uptime_formatted
+            name: Uptime
+            icon: mdi:clock-outline
+          - entity: sensor.unifi_dream_machine_device_clients
+            name: Connected clients
+            icon: mdi:lan-connect
+          - entity: sensor.dmp_wan_latency_ms
+            name: WAN latency
+            icon: mdi:speedometer
+          - entity: sensor.dmp_wan_public_ip
+            name: WAN IP
+            icon: mdi:ip-network
+
+      - type: entities
+        title: WAN usage this month
+        show_header_toggle: false
+        entities:
+          - entity: sensor.dmp_wan_monthly_total_mbps
+            name: Avg total (down + up)
+            icon: mdi:wan
+          - type: section
+            label: Avg rate
+          - entity: sensor.dmp_wan_monthly_download_mbps
+            name: Avg download
+          - entity: sensor.dmp_wan_monthly_upload_mbps
+            name: Avg upload
+          - type: section
+            label: Volume
+          - type: attribute
+            entity: sensor.dmp_wan_monthly_total_mbps
+            attribute: total_gib
+            name: Total transferred (GiB)
+          - type: attribute
+            entity: sensor.dmp_wan_monthly_total_mbps
+            attribute: last_reset
+            name: Period started
 
       - type: grid
         columns: 2
         square: false
         cards:
           - type: custom:mini-graph-card
-            name: DMP KiB/s
+            name: DMP Mbps
             icon: mdi:router-wireless
             hours_to_show: 24
             points_per_hour: 3
@@ -217,12 +262,12 @@ views:
               labels: hover
               points: hover
             entities:
-              - entity: sensor.unifi_dream_machine_download_speed
-                name: KiB/s received
+              - entity: sensor.dmp_wan_download_mbps
+                name: Mbps received
                 color: "#64b5f6"
                 show_points: false
-              - entity: sensor.unifi_dream_machine_upload_speed
-                name: KiB/s sent
+              - entity: sensor.dmp_wan_upload_mbps
+                name: Mbps sent
                 color: "#ffb74d"
                 show_points: false
           - type: custom:mini-graph-card

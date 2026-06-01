@@ -17,6 +17,7 @@ scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
 zone: !include includes/zones.yaml
 sensor: !include includes/sensors.yaml
+utility_meter: !include includes/utility_meter.yaml
 mqtt: !include includes/mqtt.yaml
 homekit: !include includes/homekit.yaml
 prometheus: !include includes/prometheus.yaml
@@ -72,3 +73,104 @@ template:
       \     {{ ' ' }}\n    {%- endif -%}\n    {{ hours }}h\n  {%- endif -%}\n  {%-
       if minutes > 0 -%}\n    {%- if days > 0 or hours > 0 -%}\n      {{ ' ' }}\n
       \   {%- endif -%}\n    {{ minutes }}m\n  {%- endif -%}\n{%- endif -%}"
+  # UniFi reports KiB/s; convert to decimal Mbps for display (× 1024 × 8 / 1e6).
+  - default_entity_id: sensor.dmp_wan_download_mbps
+    name: DMP WAN Download
+    unit_of_measurement: Mbps
+    device_class: data_rate
+    state_class: measurement
+    icon: mdi:download
+    state: >-
+      {{ (states('sensor.unifi_dream_machine_download_speed') | float(0) * 1024 * 8 / 1e6) | round(2) }}
+  - default_entity_id: sensor.dmp_wan_upload_mbps
+    name: DMP WAN Upload
+    unit_of_measurement: Mbps
+    device_class: data_rate
+    state_class: measurement
+    icon: mdi:upload
+    state: >-
+      {{ (states('sensor.unifi_dream_machine_upload_speed') | float(0) * 1024 * 8 / 1e6) | round(2) }}
+  # Monthly: average Mbps since period start (utility_meter KiB → bits / elapsed seconds).
+  - default_entity_id: sensor.dmp_wan_monthly_download_mbps
+    name: DMP WAN Monthly Avg Download
+    unit_of_measurement: Mbps
+    device_class: data_rate
+    icon: mdi:download
+    state: >-
+      {% set kib = states('sensor.dmp_wan_download_monthly') | float(0) %}
+      {% set reset = state_attr('sensor.dmp_wan_download_monthly', 'last_reset') %}
+      {% set sec = (now().timestamp() - as_timestamp(reset, 0)) | float(1) %}
+      {{ ((kib * 1024 * 8) / sec / 1e6) | round(2) if sec > 0 else 0 }}
+    attributes:
+      total_gib: >-
+        {% set kib = states('sensor.dmp_wan_download_monthly') | float(0) %}
+        {{ (kib / 1048576) | round(2) }}
+      last_reset: "{{ state_attr('sensor.dmp_wan_download_monthly', 'last_reset') }}"
+  - default_entity_id: sensor.dmp_wan_monthly_upload_mbps
+    name: DMP WAN Monthly Avg Upload
+    unit_of_measurement: Mbps
+    device_class: data_rate
+    icon: mdi:upload
+    state: >-
+      {% set kib = states('sensor.dmp_wan_upload_monthly') | float(0) %}
+      {% set reset = state_attr('sensor.dmp_wan_upload_monthly', 'last_reset') %}
+      {% set sec = (now().timestamp() - as_timestamp(reset, 0)) | float(1) %}
+      {{ ((kib * 1024 * 8) / sec / 1e6) | round(2) if sec > 0 else 0 }}
+    attributes:
+      total_gib: >-
+        {% set kib = states('sensor.dmp_wan_upload_monthly') | float(0) %}
+        {{ (kib / 1048576) | round(2) }}
+      last_reset: "{{ state_attr('sensor.dmp_wan_upload_monthly', 'last_reset') }}"
+  - default_entity_id: sensor.dmp_wan_monthly_total_mbps
+    name: DMP WAN Monthly Avg Total
+    unit_of_measurement: Mbps
+    device_class: data_rate
+    icon: mdi:wan
+    state: >-
+      {% set down = states('sensor.dmp_wan_download_monthly') | float(0) %}
+      {% set up = states('sensor.dmp_wan_upload_monthly') | float(0) %}
+      {% set reset = state_attr('sensor.dmp_wan_download_monthly', 'last_reset') %}
+      {% set sec = (now().timestamp() - as_timestamp(reset, 0)) | float(1) %}
+      {{ (((down + up) * 1024 * 8) / sec / 1e6) | round(2) if sec > 0 else 0 }}
+    attributes:
+      download_mbps: "{{ states('sensor.dmp_wan_monthly_download_mbps') }}"
+      upload_mbps: "{{ states('sensor.dmp_wan_monthly_upload_mbps') }}"
+      total_gib: >-
+        {% set down = states('sensor.dmp_wan_download_monthly') | float(0) %}
+        {% set up = states('sensor.dmp_wan_upload_monthly') | float(0) %}
+        {{ ((down + up) / 1048576) | round(2) }}
+      last_reset: "{{ state_attr('sensor.dmp_wan_download_monthly', 'last_reset') }}"
+  # Gateway card: enable CPU, memory, device clients, and WAN latency in UniFi integration.
+  - default_entity_id: sensor.dmp_wan_latency_ms
+    name: DMP WAN Latency
+    unit_of_measurement: ms
+    device_class: duration
+    state_class: measurement
+    icon: mdi:speedometer
+    state: >-
+      {% set ns = namespace(v='') %}
+      {% for e in [
+        'sensor.unifi_dream_machine_google_wan_latency',
+        'sensor.unifi_dream_machine_cloudflare_wan_latency',
+        'sensor.unifi_dream_machine_microsoft_wan_latency'
+      ] %}
+        {% if ns.v == '' and states(e) not in ['unknown', 'unavailable', 'none', ''] %}
+          {% set ns.v = states(e) %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.v if ns.v != '' else 'unknown' }}
+  - default_entity_id: sensor.dmp_wan_public_ip
+    name: DMP WAN IP
+    icon: mdi:ip-network
+    state: >-
+      {% set ns = namespace(ip='') %}
+      {% for e in [
+        'sensor.unifi_dream_machine_wan_ip',
+        'sensor.unifi_dream_machine_wan_ipv4',
+        'sensor.unifi_dream_machine_ipv4_wan'
+      ] %}
+        {% if ns.ip == '' and states(e) not in ['unknown', 'unavailable', 'none', ''] %}
+          {% set ns.ip = states(e) %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.ip if ns.ip != '' else 'unknown' }}

@@ -1,0 +1,10 @@
+# Monthly WAN usage from cumulative integration sensors (KiB).
+# Resets on the 1st of each month (HA timezone: America/Los_Angeles).
+
+dmp_wan_download_monthly:
+  source: sensor.dmp_wan_download_total
+  cycle: monthly
+
+dmp_wan_upload_monthly:
+  source: sensor.dmp_wan_upload_total
+  cycle: monthly

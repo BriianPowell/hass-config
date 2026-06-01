@@ -1,5 +1,28 @@
 # Sensors
 
+# Integrate UniFi DMP KiB/s speed sensors into cumulative KiB (resets on HA restart).
+# Template sensors convert KiB/s → Mbps for display; monthly templates use Mbps (avg).
+# Sources: sensor.unifi_dream_machine_download_speed / _upload_speed
+- platform: integration
+  source: sensor.unifi_dream_machine_download_speed
+  name: DMP WAN Download Total
+  unique_id: dmp_wan_download_total
+  unit_time: s
+  method: trapezoidal
+  max_sub_interval:
+    minutes: 5
+  round: 2
+
+- platform: integration
+  source: sensor.unifi_dream_machine_upload_speed
+  name: DMP WAN Upload Total
+  unique_id: dmp_wan_upload_total
+  unit_time: s
+  method: trapezoidal
+  max_sub_interval:
+    minutes: 5
+  round: 2
+
 - platform: statistics
   name: Server SmartPlug Power 30min
   entity_id: sensor.smartplug_server_1min
