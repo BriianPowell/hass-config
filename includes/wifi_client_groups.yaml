@@ -1,0 +1,33 @@
+# UniFi device_tracker groups for the WiFi dashboard.
+#
+# 1. UniFi → Configure: only enable tracking for clients you want in HA.
+# 2. Developer tools → States: copy entity_id (device_tracker.*) into a category below.
+# 3. Reload groups + template helpers after edits.
+#
+# Uncategorized online clients appear on sensor.wifi_uncategorized_online until listed here.
+
+wifi_people:
+  name: WiFi — People
+  icon: mdi:account-group
+  entities:
+    - device_tracker.boog
+
+wifi_computers:
+  name: WiFi — Computers
+  icon: mdi:laptop
+  entities: []
+
+wifi_media:
+  name: WiFi — Media
+  icon: mdi:television
+  entities: []
+
+wifi_iot:
+  name: WiFi — Smart home
+  icon: mdi:home-automation
+  entities: []
+
+wifi_guest:
+  name: WiFi — Guest
+  icon: mdi:account-clock
+  entities: []

@@ -16,6 +16,7 @@ person: !include includes/persons.yaml
 scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
 zone: !include includes/zones.yaml
+group: !include includes/wifi_client_groups.yaml
 sensor: !include includes/sensors.yaml
 utility_meter: !include includes/utility_meter.yaml
 mqtt: !include includes/mqtt.yaml
@@ -65,112 +66,97 @@ template:
 - sensor:
   - default_entity_id: sensor.udm_uptime_formatted
     name: UniFi Dream Machine Uptime Formatted
-    state: "{% set time = (states.sensor.unifi_dream_machine_uptime.state | int) |
-      int %} {% set minutes = ((time % 3600) / 60) | int %} {% set hours = ((time
-      % 86400) / 3600) | int %} {% set days = (time / 86400) | int %}\n{%- if time
-      < 60 -%}\n  Less than a minute\n  {%- else -%}\n  {%- if days > 0 -%}\n    {{
-      days }}d\n  {%- endif -%}\n  {%- if hours > 0 -%}\n    {%- if days > 0 -%}\n
-      \     {{ ' ' }}\n    {%- endif -%}\n    {{ hours }}h\n  {%- endif -%}\n  {%-
-      if minutes > 0 -%}\n    {%- if days > 0 or hours > 0 -%}\n      {{ ' ' }}\n
-      \   {%- endif -%}\n    {{ minutes }}m\n  {%- endif -%}\n{%- endif -%}"
-  # UniFi reports KiB/s; convert to decimal Mbps for display (× 1024 × 8 / 1e6).
-  - default_entity_id: sensor.dmp_wan_download_mbps
-    name: DMP WAN Download
-    unit_of_measurement: Mbps
-    device_class: data_rate
-    state_class: measurement
-    icon: mdi:download
     state: >-
-      {{ (states('sensor.unifi_dream_machine_download_speed') | float(0) * 1024 * 8 / 1e6) | round(2) }}
-  - default_entity_id: sensor.dmp_wan_upload_mbps
-    name: DMP WAN Upload
-    unit_of_measurement: Mbps
-    device_class: data_rate
-    state_class: measurement
-    icon: mdi:upload
+      {% set uptime_entity = 'sensor.boog_dmp_uptime' if states('sensor.boog_dmp_uptime') not in ['unknown', 'unavailable'] else 'sensor.unifi_dream_machine_uptime' %}
+      {% set time = states(uptime_entity) | int(0) %}
+      {% set minutes = ((time % 3600) / 60) | int %}
+      {% set hours = ((time % 86400) / 3600) | int %}
+      {% set days = (time / 86400) | int %}
+      {%- if time < 60 -%}
+        Less than a minute
+      {%- else -%}
+        {%- if days > 0 -%}{{ days }}d{%- endif -%}
+        {%- if hours > 0 -%}{% if days > 0 %} {% endif %}{{ hours }}h{%- endif -%}
+        {%- if minutes > 0 -%}{% if days > 0 or hours > 0 %} {% endif %}{{ minutes }}m{%- endif -%}
+      {%- endif -%}
+  - !include includes/template_dmp_wan.yaml
+  # WiFi client groups (includes/wifi_client_groups.yaml) — overview + uncategorized bucket.
+  - default_entity_id: sensor.wifi_clients_overview
+    name: WiFi Clients Overview
+    icon: mdi:wifi
     state: >-
-      {{ (states('sensor.unifi_dream_machine_upload_speed') | float(0) * 1024 * 8 / 1e6) | round(2) }}
-  # Monthly: average Mbps since period start (utility_meter KiB → bits / elapsed seconds).
-  - default_entity_id: sensor.dmp_wan_monthly_download_mbps
-    name: DMP WAN Monthly Avg Download
-    unit_of_measurement: Mbps
-    device_class: data_rate
-    icon: mdi:download
-    state: >-
-      {% set kib = states('sensor.dmp_wan_download_monthly') | float(0) %}
-      {% set reset = state_attr('sensor.dmp_wan_download_monthly', 'last_reset') %}
-      {% set sec = (now().timestamp() - as_timestamp(reset, 0)) | float(1) %}
-      {{ ((kib * 1024 * 8) / sec / 1e6) | round(2) if sec > 0 else 0 }}
+      {% set members =
+        expand('group.wifi_people') | list +
+        expand('group.wifi_computers') | list +
+        expand('group.wifi_media') | list +
+        expand('group.wifi_iot') | list +
+        expand('group.wifi_guest') | list
+      %}
+      {% set online = members | selectattr('state', 'eq', 'home') | list | count %}
+      {{ online }} online · {{ members | count }} tracked
     attributes:
-      total_gib: >-
-        {% set kib = states('sensor.dmp_wan_download_monthly') | float(0) %}
-        {{ (kib / 1048576) | round(2) }}
-      last_reset: "{{ state_attr('sensor.dmp_wan_download_monthly', 'last_reset') }}"
-  - default_entity_id: sensor.dmp_wan_monthly_upload_mbps
-    name: DMP WAN Monthly Avg Upload
-    unit_of_measurement: Mbps
-    device_class: data_rate
-    icon: mdi:upload
+      people: >-
+        {% set m = expand('group.wifi_people') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      computers: >-
+        {% set m = expand('group.wifi_computers') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      media: >-
+        {% set m = expand('group.wifi_media') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      iot: >-
+        {% set m = expand('group.wifi_iot') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+      guest: >-
+        {% set m = expand('group.wifi_guest') | list %}
+        {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
+  - default_entity_id: sensor.wifi_uncategorized_online
+    name: WiFi Uncategorized Online
+    icon: mdi:help-circle-outline
     state: >-
-      {% set kib = states('sensor.dmp_wan_upload_monthly') | float(0) %}
-      {% set reset = state_attr('sensor.dmp_wan_upload_monthly', 'last_reset') %}
-      {% set sec = (now().timestamp() - as_timestamp(reset, 0)) | float(1) %}
-      {{ ((kib * 1024 * 8) / sec / 1e6) | round(2) if sec > 0 else 0 }}
+      {% set tracked_ids =
+        expand('group.wifi_people') | map(attribute='entity_id') | list +
+        expand('group.wifi_computers') | map(attribute='entity_id') | list +
+        expand('group.wifi_media') | map(attribute='entity_id') | list +
+        expand('group.wifi_iot') | map(attribute='entity_id') | list +
+        expand('group.wifi_guest') | map(attribute='entity_id') | list
+      %}
+      {% set loose = states.device_tracker
+        | selectattr('attributes.source_type', 'eq', 'router')
+        | rejectattr('entity_id', 'in', tracked_ids)
+        | selectattr('state', 'eq', 'home')
+        | list
+      %}
+      {{ loose | count }}
     attributes:
-      total_gib: >-
-        {% set kib = states('sensor.dmp_wan_upload_monthly') | float(0) %}
-        {{ (kib / 1048576) | round(2) }}
-      last_reset: "{{ state_attr('sensor.dmp_wan_upload_monthly', 'last_reset') }}"
-  - default_entity_id: sensor.dmp_wan_monthly_total_mbps
-    name: DMP WAN Monthly Avg Total
-    unit_of_measurement: Mbps
-    device_class: data_rate
-    icon: mdi:wan
-    state: >-
-      {% set down = states('sensor.dmp_wan_download_monthly') | float(0) %}
-      {% set up = states('sensor.dmp_wan_upload_monthly') | float(0) %}
-      {% set reset = state_attr('sensor.dmp_wan_download_monthly', 'last_reset') %}
-      {% set sec = (now().timestamp() - as_timestamp(reset, 0)) | float(1) %}
-      {{ (((down + up) * 1024 * 8) / sec / 1e6) | round(2) if sec > 0 else 0 }}
-    attributes:
-      download_mbps: "{{ states('sensor.dmp_wan_monthly_download_mbps') }}"
-      upload_mbps: "{{ states('sensor.dmp_wan_monthly_upload_mbps') }}"
-      total_gib: >-
-        {% set down = states('sensor.dmp_wan_download_monthly') | float(0) %}
-        {% set up = states('sensor.dmp_wan_upload_monthly') | float(0) %}
-        {{ ((down + up) / 1048576) | round(2) }}
-      last_reset: "{{ state_attr('sensor.dmp_wan_download_monthly', 'last_reset') }}"
-  # Gateway card: enable CPU, memory, device clients, and WAN latency in UniFi integration.
-  - default_entity_id: sensor.dmp_wan_latency_ms
-    name: DMP WAN Latency
-    unit_of_measurement: ms
-    device_class: duration
-    state_class: measurement
-    icon: mdi:speedometer
-    state: >-
-      {% set ns = namespace(v='') %}
-      {% for e in [
-        'sensor.unifi_dream_machine_google_wan_latency',
-        'sensor.unifi_dream_machine_cloudflare_wan_latency',
-        'sensor.unifi_dream_machine_microsoft_wan_latency'
-      ] %}
-        {% if ns.v == '' and states(e) not in ['unknown', 'unavailable', 'none', ''] %}
-          {% set ns.v = states(e) %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.v if ns.v != '' else 'unknown' }}
-  - default_entity_id: sensor.dmp_wan_public_ip
-    name: DMP WAN IP
-    icon: mdi:ip-network
-    state: >-
-      {% set ns = namespace(ip='') %}
-      {% for e in [
-        'sensor.unifi_dream_machine_wan_ip',
-        'sensor.unifi_dream_machine_wan_ipv4',
-        'sensor.unifi_dream_machine_ipv4_wan'
-      ] %}
-        {% if ns.ip == '' and states(e) not in ['unknown', 'unavailable', 'none', ''] %}
-          {% set ns.ip = states(e) %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.ip if ns.ip != '' else 'unknown' }}
+      devices: >-
+        {% set tracked_ids =
+          expand('group.wifi_people') | map(attribute='entity_id') | list +
+          expand('group.wifi_computers') | map(attribute='entity_id') | list +
+          expand('group.wifi_media') | map(attribute='entity_id') | list +
+          expand('group.wifi_iot') | map(attribute='entity_id') | list +
+          expand('group.wifi_guest') | map(attribute='entity_id') | list
+        %}
+        {% set loose = states.device_tracker
+          | selectattr('attributes.source_type', 'eq', 'router')
+          | rejectattr('entity_id', 'in', tracked_ids)
+          | selectattr('state', 'eq', 'home')
+          | map(attribute='name')
+          | list
+        %}
+        {{ loose | join(', ') if loose | count > 0 else 'None' }}
+      entity_ids: >-
+        {% set tracked_ids =
+          expand('group.wifi_people') | map(attribute='entity_id') | list +
+          expand('group.wifi_computers') | map(attribute='entity_id') | list +
+          expand('group.wifi_media') | map(attribute='entity_id') | list +
+          expand('group.wifi_iot') | map(attribute='entity_id') | list +
+          expand('group.wifi_guest') | map(attribute='entity_id') | list
+        %}
+        {{ states.device_tracker
+          | selectattr('attributes.source_type', 'eq', 'router')
+          | rejectattr('entity_id', 'in', tracked_ids)
+          | selectattr('state', 'eq', 'home')
+          | map(attribute='entity_id')
+          | list
+        }}

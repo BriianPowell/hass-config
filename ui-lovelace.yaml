@@ -187,6 +187,11 @@ views:
           - entity: input_boolean.dark_mode
             name: Dark mode
 
+  - title: WiFi
+    id: wifi
+    icon: mdi:wifi
+    cards: !include lovelace/wifi_view_cards.yaml
+
   - title: Network
     id: network
     icon: mdi:router-network
@@ -196,7 +201,7 @@ views:
         show_header_toggle: false
         entities:
           - name: WAN Status
-            entity: binary_sensor.unifi_dream_machine_wan_status
+            entity: binary_sensor.boog_dmp_wan_status
 
       - type: entities
         title: Gateway
@@ -281,11 +286,11 @@ views:
               labels: hover
               points: hover
             entities:
-              - entity: sensor.unifi_dream_machine_packets_received
+              - entity: sensor.boog_dmp_packets_received
                 name: Packets/s received
                 color: "#64b5f6"
                 show_points: false
-              - entity: sensor.unifi_dream_machine_packets_sent
+              - entity: sensor.boog_dmp_packets_sent
                 name: Packets/s sent
                 color: "#ffb74d"
                 show_points: false

@@ -1,0 +1,26 @@
+# UniFi gateway entity IDs used by WAN templates and integration sensors.
+# If your device slug changes, update these lists (Developer tools → States).
+#
+# Latency: enable Google/Cloudflare/Microsoft WAN latency on the gateway in
+# UniFi Network → Configure, then reload templates.
+
+download_speed:
+  - sensor.boog_dmp_download_speed
+  - sensor.unifi_dream_machine_download_speed
+upload_speed:
+  - sensor.boog_dmp_upload_speed
+  - sensor.unifi_dream_machine_upload_speed
+latency:
+  - sensor.boog_dmp_google_wan_latency
+  - sensor.boog_dmp_google_wan_latency_2
+  - sensor.unifi_dream_machine_google_wan_latency
+  - sensor.boog_dmp_cloudflare_wan_latency
+  - sensor.boog_dmp_cloudflare_wan_latency_2
+  - sensor.unifi_dream_machine_cloudflare_wan_latency
+  - sensor.boog_dmp_microsoft_wan_latency
+  - sensor.boog_dmp_microsoft_wan_latency_2
+  - sensor.unifi_dream_machine_microsoft_wan_latency
+wan_ip:
+  # Official UniFi integration usually does not expose WAN IP; REST fallback in sensors.yaml.
+  - sensor.boog_dmp_wan_ip
+  - sensor.unifi_dream_machine_wan_ip

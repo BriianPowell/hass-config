@@ -1,0 +1,56 @@
+- type: entities
+  title: WiFi overview
+  show_header_toggle: false
+  state_color: true
+  entities:
+    - entity: sensor.wifi_clients_overview
+      name: Tracked clients
+      icon: mdi:wifi
+    - type: attribute
+      entity: sensor.wifi_clients_overview
+      attribute: people
+      name: People
+    - type: attribute
+      entity: sensor.wifi_clients_overview
+      attribute: computers
+      name: Computers
+    - type: attribute
+      entity: sensor.wifi_clients_overview
+      attribute: media
+      name: Media
+    - type: attribute
+      entity: sensor.wifi_clients_overview
+      attribute: iot
+      name: Smart home
+    - type: attribute
+      entity: sensor.wifi_clients_overview
+      attribute: guest
+      name: Guest
+
+- type: entities
+  title: WiFi clients
+  show_header_toggle: false
+  state_color: true
+  entities:
+    - type: section
+      label: People
+    - entity: group.wifi_people
+    - type: section
+      label: Computers
+    - entity: group.wifi_computers
+    - type: section
+      label: Media
+    - entity: group.wifi_media
+    - type: section
+      label: Smart home
+    - entity: group.wifi_iot
+    - type: section
+      label: Guest
+    - entity: group.wifi_guest
+    - type: section
+      label: Not in a group (online)
+    - entity: sensor.wifi_uncategorized_online
+    - type: attribute
+      entity: sensor.wifi_uncategorized_online
+      attribute: devices
+      name: Device names

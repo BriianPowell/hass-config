@@ -1,10 +1,9 @@
 # Sensors
 
-# Integrate UniFi DMP KiB/s speed sensors into cumulative KiB (resets on HA restart).
-# Template sensors convert KiB/s → Mbps for display; monthly templates use Mbps (avg).
-# Sources: sensor.unifi_dream_machine_download_speed / _upload_speed
+# Integrate normalized KiB/s templates into cumulative KiB (resets on HA restart).
+# Sources: sensor.dmp_wan_download_kib_s / sensor.dmp_wan_upload_kib_s
 - platform: integration
-  source: sensor.unifi_dream_machine_download_speed
+  source: sensor.dmp_wan_download_kib_s
   name: DMP WAN Download Total
   unique_id: dmp_wan_download_total
   unit_time: s
@@ -14,7 +13,7 @@
   round: 2
 
 - platform: integration
-  source: sensor.unifi_dream_machine_upload_speed
+  source: sensor.dmp_wan_upload_kib_s
   name: DMP WAN Upload Total
   unique_id: dmp_wan_upload_total
   unit_time: s
@@ -22,6 +21,15 @@
   max_sub_interval:
     minutes: 5
   round: 2
+
+# UniFi does not expose WAN IP; poll public address (same as WAN for most homes).
+- platform: rest
+  name: DMP WAN Public IP (ipify)
+  unique_id: dmp_wan_public_ip_ipify
+  resource: https://api.ipify.org?format=json
+  value_template: "{{ value_json.ip }}"
+  scan_interval: 600
+  timeout: 10
 
 - platform: statistics
   name: Server SmartPlug Power 30min
