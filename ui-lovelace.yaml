@@ -197,22 +197,21 @@ views:
         entities:
           - name: WAN Status
             entity: binary_sensor.unifi_dream_machine_wan_status
-          - entity: person.brian
 
       - type: entities
         title: Gateway
         show_header_toggle: false
         entities:
-          - entity: sensor.unifi_dream_machine_cpu_utilization
+          - entity: sensor.boog_dmp_cpu_utilization_2
             name: CPU
             icon: mdi:cpu-64-bit
-          - entity: sensor.unifi_dream_machine_memory_utilization
+          - entity: sensor.boog_dmp_memory_utilization_2
             name: Memory
             icon: mdi:memory
           - entity: sensor.udm_uptime_formatted
             name: Uptime
             icon: mdi:clock-outline
-          - entity: sensor.unifi_dream_machine_device_clients
+          - entity: sensor.boog_dmp_clients
             name: Connected clients
             icon: mdi:lan-connect
           - entity: sensor.dmp_wan_latency_ms
