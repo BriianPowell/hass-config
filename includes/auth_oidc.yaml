@@ -1,0 +1,36 @@
+# Keycloak (OIDC) sign-in for Home Assistant, via the hass-oidc-auth custom integration.
+# https://github.com/christiaangoossens/hass-oidc-auth
+# https://github.com/christiaangoossens/hass-oidc-auth/blob/main/docs/provider-configurations/keycloak.md
+# https://github.com/christiaangoossens/hass-oidc-auth/blob/main/docs/configuration.md
+#
+# Needs: the integration installed through HACS (it lives in custom_components/, which is gitignored),
+# the `home-assistant` client + `groups` scope in Keycloak (realm `inferno`), and a restart.
+# Nothing here is secret: a public client with PKCE has no client secret.
+#
+# Access is by Keycloak group (group names, full path off in the mapper):
+#   messiah -> Home Assistant administrator
+#   diwis   -> Home Assistant regular user (no Settings access)
+# Anyone in neither group is rejected at login.
+#
+# Not enabled on purpose: features.automatic_user_linking (it ignores MFA when a username matches a
+# local user). The local "Brian" owner account keeps its password login as a break-glass path; OIDC
+# users are created as separate Home Assistant users on first sign-in. Permissions are only set on
+# the FIRST login, so changing someone's Keycloak group later does not change their HA role.
+client_id: home-assistant
+discovery_url: https://keycloak.powell.place/realms/inferno/.well-known/openid-configuration
+
+claims:
+  display_name: name
+  username: preferred_username
+  groups: groups
+groups_scope: groups
+roles:
+  admin: messiah
+  user: diwis
+
+features:
+  # TLS ends at Traefik, so HA sees plain HTTP; without this the callback URL can come out as http://.
+  force_https: true
+  # Skip HA's own login page and go straight to Keycloak. Turn on only after sign-in works on the web
+  # and the mobile app. The local login then needs https://hass.powell.place/?skip_oidc_redirect=true
+  # default_redirect: true

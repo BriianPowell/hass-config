@@ -2,7 +2,10 @@ homeassistant: !include includes/homeassistant.yaml
 default_config:
 frontend:
   themes: !include_dir_merge_named themes
-http: !include includes/http.yaml
+# HTTP (trusted proxies, X-Forwarded-For) is no longer YAML: Home Assistant migrated it to
+# .storage/http and ignores an `http:` block. Manage it under Settings > System > Network.
+# Keycloak sign-in; needs the hass-oidc-auth integration from HACS (see includes/auth_oidc.yaml).
+auth_oidc: !include includes/auth_oidc.yaml
 
 # Logging and History
 recorder: !include includes/recorder.yaml
