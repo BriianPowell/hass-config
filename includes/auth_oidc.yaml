@@ -29,6 +29,10 @@ roles:
   user: diwis
 
 features:
+  # The `groups` claim comes from a mapper on the home-assistant client itself, not from a `groups`
+  # client scope, so asking Keycloak for that scope fails with invalid_scope ("Missing code or state
+  # parameter" on the callback page). The claim is still in the token.
+  include_groups_scope: false
   # TLS ends at Traefik, so HA sees plain HTTP; without this the callback URL can come out as http://.
   force_https: true
   # Skip HA's own login page and go straight to Keycloak (desktop browsers; the mobile app still uses
