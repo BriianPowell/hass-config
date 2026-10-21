@@ -31,6 +31,7 @@ roles:
 features:
   # TLS ends at Traefik, so HA sees plain HTTP; without this the callback URL can come out as http://.
   force_https: true
-  # Skip HA's own login page and go straight to Keycloak. Turn on only after sign-in works on the web
-  # and the mobile app. The local login then needs https://hass.powell.place/?skip_oidc_redirect=true
-  # default_redirect: true
+  # Skip HA's own login page and go straight to Keycloak (desktop browsers; the mobile app still uses
+  # its device-code flow). The local break-glass login is then at
+  # https://hass.powell.place/?skip_oidc_redirect=true
+  default_redirect: true
