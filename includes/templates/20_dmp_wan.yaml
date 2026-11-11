@@ -10,8 +10,18 @@
     state_class: measurement
     icon: mdi:download
     availability: >-
-      {{ states('sensor.boog_dmp_download_speed') not in ['unknown', 'unavailable'] or
-         states('sensor.unifi_dream_machine_download_speed') not in ['unknown', 'unavailable'] }}
+      {% set candidates = [
+        'sensor.boog_dmp_download_speed',
+        'sensor.boog_dmp_download_speed_2',
+        'sensor.unifi_dream_machine_download_speed'
+      ] %}
+      {% set ns = namespace(ok=false) %}
+      {% for e in candidates %}
+        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.ok = true %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.ok }}
     state: >-
       {% set candidates = [
         'sensor.boog_dmp_download_speed',
@@ -64,8 +74,18 @@
     state_class: measurement
     icon: mdi:upload
     availability: >-
-      {{ states('sensor.boog_dmp_upload_speed') not in ['unknown', 'unavailable'] or
-         states('sensor.unifi_dream_machine_upload_speed') not in ['unknown', 'unavailable'] }}
+      {% set candidates = [
+        'sensor.boog_dmp_upload_speed',
+        'sensor.boog_dmp_upload_speed_2',
+        'sensor.unifi_dream_machine_upload_speed'
+      ] %}
+      {% set ns = namespace(ok=false) %}
+      {% for e in candidates %}
+        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
+          {% set ns.ok = true %}
+        {% endif %}
+      {% endfor %}
+      {{ ns.ok }}
     state: >-
       {% set candidates = [
         'sensor.boog_dmp_upload_speed',

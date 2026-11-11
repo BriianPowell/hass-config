@@ -1,9 +1,0 @@
-# Keeps the actions in .github/workflows current. OIDC_VERSION in ci.yaml is not covered; bump it
-# with the HACS install on the cluster.
-# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
-version: 2
-updates:
-  - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: monthly

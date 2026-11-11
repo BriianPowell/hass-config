@@ -31,3 +31,14 @@ wifi_guest:
   name: WiFi — Guest
   icon: mdi:account-clock
   entities: []
+
+# Every category above; expand() flattens it to the device trackers. Add new categories here too.
+wifi_tracked:
+  name: WiFi — Tracked
+  icon: mdi:wifi
+  entities:
+    - group.wifi_people
+    - group.wifi_computers
+    - group.wifi_media
+    - group.wifi_iot
+    - group.wifi_guest

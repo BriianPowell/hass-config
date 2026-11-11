@@ -1,6 +1,6 @@
 # Sensors
 
-# Integrate normalized KiB/s templates into cumulative KiB (resets on HA restart).
+# Integrate normalized KiB/s templates into cumulative KiB (restored across HA restarts).
 # Sources: sensor.dmp_wan_download_kib_s / sensor.dmp_wan_upload_kib_s
 - platform: integration
   source: sensor.dmp_wan_download_kib_s

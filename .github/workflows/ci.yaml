@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
@@ -34,6 +36,8 @@ jobs:
       DEPLOYMENT_URL: https://raw.githubusercontent.com/BriianPowell/k3s-collective/main/apps/base/homeassistant/deployment.yaml
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Read the Home Assistant version from k3s-collective
         id: ha
