@@ -87,98 +87,47 @@ views:
               - name: Lauren
                 entity: sensor.smartplug_lauren_1mon
 
+      # Long-term statistics (hourly, kept indefinitely); the recorder only keeps 5 days of raw history.
       - type: grid
         columns: 2
         square: false
         cards:
-          - type: custom:mini-graph-card
-            name: Server
-            icon: mdi:server
-            hours_to_show: 168
-            points_per_hour: 4
-            line_width: 2
-            height: 110
-            lower_bound: 0
-            decimals: 0
-            color_thresholds_transition: smooth
-            show:
-              extrema: true
-              average: true
-              state: false
-              labels: false
-              legend: false
+          - type: statistics-graph
+            title: Server
             entities:
-              - entity: sensor.smartplug_server_1min
+              - entity: sensor.server_smartplug_power_30min
                 name: Server
-                color: "#64b5f6"
-                aggregate_func: avg
-                show_points: false
-          - type: custom:mini-graph-card
-            name: PC
-            icon: mdi:desktop-tower
-            hours_to_show: 168
-            points_per_hour: 4
-            line_width: 2
-            height: 110
-            lower_bound: 0
-            decimals: 0
-            color_thresholds_transition: smooth
-            show:
-              extrema: true
-              average: true
-              state: false
-              labels: false
-              legend: false
+            stat_types: [mean, max]
+            period: hour
+            days_to_show: 7
+            chart_type: line
+          - type: statistics-graph
+            title: PC
             entities:
-              - entity: sensor.smartplug_pc_1min
+              - entity: sensor.pc_smartplug_power_30min
                 name: PC
-                color: "#ffb74d"
-                aggregate_func: avg
-                show_points: false
-          - type: custom:mini-graph-card
-            name: Carlos
-            icon: mdi:bed
-            hours_to_show: 168
-            points_per_hour: 4
-            line_width: 2
-            height: 110
-            lower_bound: 0
-            decimals: 0
-            color_thresholds_transition: smooth
-            show:
-              extrema: true
-              average: true
-              state: false
-              labels: false
-              legend: false
+            stat_types: [mean, max]
+            period: hour
+            days_to_show: 7
+            chart_type: line
+          - type: statistics-graph
+            title: Carlos
             entities:
-              - entity: sensor.smartplug_carlos_1min
+              - entity: sensor.carlos_smartplug_power_30min
                 name: Carlos
-                color: "#81c784"
-                aggregate_func: avg
-                show_points: false
-          - type: custom:mini-graph-card
-            name: Lauren
-            icon: mdi:bed
-            hours_to_show: 168
-            points_per_hour: 4
-            line_width: 2
-            height: 110
-            lower_bound: 0
-            decimals: 0
-            color_thresholds_transition: smooth
-            show:
-              extrema: true
-              average: true
-              state: false
-              labels: false
-              legend: false
+            stat_types: [mean, max]
+            period: hour
+            days_to_show: 7
+            chart_type: line
+          - type: statistics-graph
+            title: Lauren
             entities:
-              - entity: sensor.smartplug_lauren_1min
+              - entity: sensor.lauren_smartplug_power_30min
                 name: Lauren
-                color: "#ce93d8"
-                aggregate_func: avg
-                show_points: false
+            stat_types: [mean, max]
+            period: hour
+            days_to_show: 7
+            chart_type: line
 
       - type: entities
         title: Appearance
@@ -254,43 +203,19 @@ views:
         columns: 2
         square: false
         cards:
-          - type: custom:mini-graph-card
-            name: DMP Mbps
-            icon: mdi:router-wireless
+          - type: history-graph
+            title: WAN throughput (Mbit/s)
             hours_to_show: 24
-            points_per_hour: 3
-            line_width: 2
-            height: 120
-            show:
-              state: true
-              labels: hover
-              points: hover
             entities:
               - entity: sensor.dmp_wan_download_mbps
-                name: Mbps received
-                color: "#64b5f6"
-                show_points: false
+                name: Received
               - entity: sensor.dmp_wan_upload_mbps
-                name: Mbps sent
-                color: "#ffb74d"
-                show_points: false
-          - type: custom:mini-graph-card
-            name: DMP Packets/s
-            icon: mdi:router-wireless
+                name: Sent
+          - type: history-graph
+            title: WAN packets/s
             hours_to_show: 24
-            points_per_hour: 3
-            line_width: 2
-            height: 120
-            show:
-              state: true
-              labels: hover
-              points: hover
             entities:
               - entity: sensor.dmp_wan_packets_received
-                name: Packets/s received
-                color: "#64b5f6"
-                show_points: false
+                name: Received
               - entity: sensor.dmp_wan_packets_sent
-                name: Packets/s sent
-                color: "#ffb74d"
-                show_points: false
+                name: Sent

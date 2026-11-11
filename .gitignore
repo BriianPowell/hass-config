@@ -1,5 +1,10 @@
 secrets.yaml
 
+# Written by the Home Assistant UI editors; backed up by HA backups, not git.
+automations.yaml
+scenes.yaml
+scripts.yaml
+
 # Home Assistant Auto Generated files
 .ha_run.lock
 home-assistant.*

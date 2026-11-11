@@ -42,8 +42,6 @@ lovelace:
   resources:
     - url: /local/home-assistant-sun-card.js
       type: module
-    - url: /local/mini-graph-card-bundle.js
-      type: module
     - url: /local/weather-card/weather-card.js
       type: module
 

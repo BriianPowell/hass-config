@@ -14,7 +14,10 @@ Run these and fix failures before reporting a task done. Report which ones you r
   and pulls nothing. It checks what is deployed, not your uncommitted edits, so run it
   after the maintainer pushes. Needs ssh to the node and `kubectl`. (Unverified here.)
 
-There are no unit tests and no CI workflow. Do not invent a test command.
+CI (`.github/workflows/ci.yaml`) runs pre-commit and `check_config` on every push and pull request,
+against the Home Assistant version in `k3s-collective/apps/base/homeassistant/deployment.yaml`, with
+placeholder secrets and `hass-oidc-auth` at the pinned `OIDC_VERSION`. There are no unit tests. Do
+not invent a test command.
 
 ## Commands
 
@@ -30,8 +33,9 @@ There are no unit tests and no CI workflow. Do not invent a test command.
   `includes/templates/` holds template sensors, merged in numeric order (`10_`, `20_`, ...).
 - `automations/`: hand-written automations, every file merged into one list
   (`automation manual:`). Give each one an `id:` so it gets traces.
-- `automations.yaml`, `scenes.yaml`, `scripts.yaml` (root): owned by the Home Assistant UI
-  editors, which rewrite them wholesale (comments are lost). Do not hand-edit them.
+- `automations.yaml`, `scenes.yaml`, `scripts.yaml` (root): written by the Home Assistant UI
+  editors and git-ignored (HA backups cover them). `configuration.yaml` includes them, so a fresh
+  clone needs them to exist: `echo '[]' > automations.yaml; touch scenes.yaml scripts.yaml`.
 - `ui-lovelace.yaml` and `lovelace/`: the YAML dashboard and card fragments.
 - `www/`: custom card JavaScript and icons, served at `/local/`; registered under
   `lovelace.resources` in `configuration.yaml`. Treat as vendored.

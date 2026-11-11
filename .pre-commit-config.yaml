@@ -32,4 +32,4 @@ repos:
         entry: >-
           This path is local-only (see .gitignore): secrets or Home Assistant runtime state.
         files: >-
-          (^secrets\.yaml$|^\.storage/|^\.cloud/|^\.HA_VERSION$|^\.envrc$|^home-assistant\..*|^\.ha_run\.lock$)
+          (^secrets\.yaml$|^(automations|scenes|scripts)\.yaml$|^\.storage/|^\.cloud/|^\.HA_VERSION$|^\.envrc$|^home-assistant\..*|^\.ha_run\.lock$)

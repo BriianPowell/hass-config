@@ -1,0 +1,74 @@
+# Lint, then run Home Assistant's own config check against the version the cluster runs.
+# https://www.home-assistant.io/docs/tools/check_config/
+# https://github.com/pre-commit/action
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - uses: pre-commit/action@v3.0.1
+
+  check-config:
+    runs-on: ubuntu-latest
+    env:
+      # Keep in step with the version installed from HACS on the cluster.
+      OIDC_VERSION: v1.2.1
+      DEPLOYMENT_URL: https://raw.githubusercontent.com/BriianPowell/k3s-collective/main/apps/base/homeassistant/deployment.yaml
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Read the Home Assistant version from k3s-collective
+        id: ha
+        run: |
+          tag=$(curl -fsSL "$DEPLOYMENT_URL" \
+            | sed -nE 's#.*image: ghcr\.io/home-assistant/home-assistant:([^ ]+).*#\1#p')
+          test -n "$tag" || { echo "no home-assistant image tag in $DEPLOYMENT_URL" >&2; exit 1; }
+          echo "Home Assistant $tag"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Placeholder secrets and UI-owned files
+        # Each secret the config references gets a dummy value; the check validates schema and
+        # connects to nothing.
+        run: |
+          {
+            echo 'RECORDER_DATABASE_URL: "sqlite:////tmp/ci.db"'
+            grep -rhoE '!secret [A-Za-z0-9_]+' --include='*.yaml' --exclude-dir=.github . \
+              | awk '{print $2}' | sort -u | grep -vx RECORDER_DATABASE_URL | sed 's/$/: 0/'
+          } > secrets.yaml
+          echo '[]' > automations.yaml
+          touch scenes.yaml scripts.yaml
+
+      - name: Fetch hass-oidc-auth (custom_components/ is git-ignored)
+        run: |
+          mkdir -p custom_components
+          curl -fsSL "https://github.com/christiaangoossens/hass-oidc-auth/archive/refs/tags/${OIDC_VERSION}.tar.gz" \
+            | tar -xz --strip-components=2 -C custom_components \
+              "hass-oidc-auth-${OIDC_VERSION#v}/custom_components/auth_oidc"
+
+      - name: check_config
+        # check_config skips pip, so the custom integration's requirements are installed first.
+        run: |
+          docker run --rm -v "$PWD:/config" --entrypoint sh \
+            "ghcr.io/home-assistant/home-assistant:${{ steps.ha.outputs.tag }}" -euc '
+              python3 -c "import json; print(*json.load(open(\"/config/custom_components/auth_oidc/manifest.json\"))[\"requirements\"], sep=\"\n\")" > /tmp/req.txt
+              if command -v uv >/dev/null; then uv pip install --system --quiet -r /tmp/req.txt; else python3 -m pip install --quiet -r /tmp/req.txt; fi
+              python3 -m homeassistant --script check_config -c /config
+            '
