@@ -200,6 +200,18 @@
     unit_of_measurement: ms
     state_class: measurement
     icon: mdi:speedometer
+    availability: >-
+      {{ [
+        'sensor.boog_dmp_google_wan_latency',
+        'sensor.boog_dmp_cloudflare_wan_latency',
+        'sensor.boog_dmp_microsoft_wan_latency',
+        'sensor.boog_dmp_google_wan_latency_2',
+        'sensor.boog_dmp_cloudflare_wan_latency_2',
+        'sensor.boog_dmp_microsoft_wan_latency_2',
+        'sensor.unifi_dream_machine_google_wan_latency',
+        'sensor.unifi_dream_machine_cloudflare_wan_latency',
+        'sensor.unifi_dream_machine_microsoft_wan_latency',
+      ] | select('has_value') | list | count > 0 }}
     state: >-
       {% set candidates = [
         'sensor.boog_dmp_google_wan_latency',
@@ -218,7 +230,7 @@
           {% set ns.v = states(e) | float(0) %}
         {% endif %}
       {% endfor %}
-      {{ ns.v if ns.v is not none else 'unknown' }}
+      {{ ns.v if ns.v is not none else 0 }}
     attributes:
       source_entity: >-
         {% set candidates = [

@@ -12,12 +12,10 @@ views:
       - type: horizontal-stack
         cards:
           - type: custom:sun-card
-          - type: custom:weather-card
+          - type: weather-forecast
             entity: weather.forecast_home
-            current: true
-            details: true
-            forecast: false
-            hourly_forecast: false
+            show_current: true
+            show_forecast: false
 
       - type: glance
         title: On Air

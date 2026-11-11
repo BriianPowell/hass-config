@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices"
+  ],
+  "enabledManagers": [
+    "github-actions",
+    "pre-commit",
+    "custom.regex"
+  ],
+  "pre-commit": {
+    "enabled": true
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "hass-oidc-auth version CI installs for check_config.",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/ci\\.yaml$/"
+      ],
+      "matchStrings": [
+        "OIDC_VERSION: (?<currentValue>v\\S+)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "christiaangoossens/hass-oidc-auth"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "The cluster installs hass-oidc-auth from HACS by hand; update it there before merging, or CI checks a version that is not running.",
+      "matchDepNames": [
+        "christiaangoossens/hass-oidc-auth"
+      ],
+      "prBodyNotes": [
+        "Update hass-oidc-auth in HACS on the cluster to this version before merging."
+      ]
+    }
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "dependencyDashboard": true,
+  "automerge": false
+}
