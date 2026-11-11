@@ -1,5 +1,6 @@
 - sensor:
   - default_entity_id: sensor.wifi_clients_overview
+    unique_id: wifi_clients_overview
     name: WiFi Clients Overview
     icon: mdi:wifi
     state: >-
@@ -29,6 +30,7 @@
         {% set m = expand('group.wifi_guest') | list %}
         {{ m | selectattr('state', 'eq', 'home') | list | count }}/{{ m | count }} online
   - default_entity_id: sensor.wifi_uncategorized_online
+    unique_id: wifi_uncategorized_online
     name: WiFi Uncategorized Online
     icon: mdi:help-circle-outline
     state: >-

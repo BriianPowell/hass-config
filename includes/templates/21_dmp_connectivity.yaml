@@ -3,6 +3,7 @@
 
 - binary_sensor:
   - default_entity_id: binary_sensor.dmp_wan_online
+    unique_id: dmp_wan_online
     name: DMP WAN Online
     device_class: connectivity
     icon: mdi:wan
@@ -60,6 +61,7 @@
 
 - sensor:
   - default_entity_id: sensor.dmp_wan_packets_received
+    unique_id: dmp_wan_packets_received
     name: DMP WAN Packets/s Received
     unit_of_measurement: packets/s
     state_class: measurement
@@ -96,6 +98,7 @@
       {{ ns.v if ns.v is not none else 0 }}
 
   - default_entity_id: sensor.dmp_wan_packets_sent
+    unique_id: dmp_wan_packets_sent
     name: DMP WAN Packets/s Sent
     unit_of_measurement: packets/s
     state_class: measurement

@@ -1,33 +1,38 @@
-- alias: 'Frontend: turn on dark mode'
-  trigger:
-    - platform: sun
+- id: frontend_dark_mode_on
+  alias: 'Frontend: turn on dark mode'
+  triggers:
+    - trigger: sun
       event: sunset
-  condition: "{{ is_state('input_boolean.dark_mode', 'off') }}"
-  action:
-    entity_id: input_boolean.dark_mode
-    service: input_boolean.turn_on
+  conditions: "{{ is_state('input_boolean.dark_mode', 'off') }}"
+  actions:
+    - action: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.dark_mode
 
-- alias: 'Frontend: turn on light mode'
-  trigger:
-    - platform: sun
+- id: frontend_dark_mode_off
+  alias: 'Frontend: turn on light mode'
+  triggers:
+    - trigger: sun
       event: sunrise
-  condition: "{{ is_state('input_boolean.dark_mode', 'on') }}"
-  action:
-    entity_id: input_boolean.dark_mode
-    service: input_boolean.turn_off
+  conditions: "{{ is_state('input_boolean.dark_mode', 'on') }}"
+  actions:
+    - action: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.dark_mode
 
-- alias: 'Frontend: change theme'
-  trigger:
-    - platform: state
+- id: frontend_set_theme
+  alias: 'Frontend: change theme'
+  triggers:
+    - trigger: state
       entity_id: input_boolean.dark_mode
-    - platform: homeassistant
+    - trigger: homeassistant
       event: start
-  action:
-    service: frontend.set_theme
-    data:
-      name: >
-        {% if is_state('input_boolean.dark_mode', 'on') %}
-          Dracula
-        {% else %}
-          ios-light-mode-blue-red
-        {% endif %}
+  actions:
+    - action: frontend.set_theme
+      data:
+        name: >
+          {% if is_state('input_boolean.dark_mode', 'on') %}
+            Dracula
+          {% else %}
+            ios-light-mode-blue-red
+          {% endif %}

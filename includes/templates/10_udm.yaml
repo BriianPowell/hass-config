@@ -1,5 +1,6 @@
 - sensor:
   - default_entity_id: sensor.udm_uptime_formatted
+    unique_id: udm_uptime_formatted
     name: UniFi Dream Machine Uptime Formatted
     state: >-
       {% set uptime_entity = 'sensor.boog_dmp_uptime' if states('sensor.boog_dmp_uptime') not in ['unknown', 'unavailable'] else 'sensor.unifi_dream_machine_uptime' %}
