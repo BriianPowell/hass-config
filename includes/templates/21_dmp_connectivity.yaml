@@ -60,76 +60,42 @@
       {{ ns.result if ns.result is not none else false }}
 
 - sensor:
+  # Cumulative counters from the gateway; the derivative sensors in includes/sensors.yaml
+  # turn them into packets/s.
   - default_entity_id: sensor.dmp_wan_packets_received
     unique_id: dmp_wan_packets_received
-    name: DMP WAN Packets/s Received
-    unit_of_measurement: packets/s
-    state_class: measurement
+    name: DMP WAN Packets Received
+    unit_of_measurement: packets
+    state_class: total_increasing
     icon: mdi:download
     availability: >-
-      {% set candidates = [
+      {{ [
         'sensor.boog_dmp_packets_received',
         'sensor.boog_dmp_packets_received_2',
         'sensor.unifi_dream_machine_packets_received',
-        'sensor.boog_dmp_packets_s_received',
-        'sensor.unifi_dream_machine_packets_s_received',
-      ] %}
-      {% set ns = namespace(ok=false) %}
-      {% for e in candidates %}
-        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.ok = true %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.ok }}
+      ] | select('has_value') | list | count > 0 }}
     state: >-
-      {% set candidates = [
+      {{ ([
         'sensor.boog_dmp_packets_received',
         'sensor.boog_dmp_packets_received_2',
         'sensor.unifi_dream_machine_packets_received',
-        'sensor.boog_dmp_packets_s_received',
-        'sensor.unifi_dream_machine_packets_s_received',
-      ] %}
-      {% set ns = namespace(v=none) %}
-      {% for e in candidates %}
-        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.v = states(e) | float(0) %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.v if ns.v is not none else 0 }}
+      ] | select('has_value') | first | states) | float(0) }}
 
   - default_entity_id: sensor.dmp_wan_packets_sent
     unique_id: dmp_wan_packets_sent
-    name: DMP WAN Packets/s Sent
-    unit_of_measurement: packets/s
-    state_class: measurement
+    name: DMP WAN Packets Sent
+    unit_of_measurement: packets
+    state_class: total_increasing
     icon: mdi:upload
     availability: >-
-      {% set candidates = [
+      {{ [
         'sensor.boog_dmp_packets_sent',
         'sensor.boog_dmp_packets_sent_2',
         'sensor.unifi_dream_machine_packets_sent',
-        'sensor.boog_dmp_packets_s_sent',
-        'sensor.unifi_dream_machine_packets_s_sent',
-      ] %}
-      {% set ns = namespace(ok=false) %}
-      {% for e in candidates %}
-        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.ok = true %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.ok }}
+      ] | select('has_value') | list | count > 0 }}
     state: >-
-      {% set candidates = [
+      {{ ([
         'sensor.boog_dmp_packets_sent',
         'sensor.boog_dmp_packets_sent_2',
         'sensor.unifi_dream_machine_packets_sent',
-        'sensor.boog_dmp_packets_s_sent',
-        'sensor.unifi_dream_machine_packets_s_sent',
-      ] %}
-      {% set ns = namespace(v=none) %}
-      {% for e in candidates %}
-        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.v = states(e) | float(0) %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.v if ns.v is not none else 0 }}
+      ] | select('has_value') | first | states) | float(0) }}

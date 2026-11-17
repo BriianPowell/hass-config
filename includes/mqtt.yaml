@@ -1,15 +1,17 @@
 # Broker host/credentials: Settings → Devices & services → MQTT (not configuration.yaml).
-sensor:
+binary_sensor:
   - name: "Brian on air"
     unique_id: on_air_brian_mac
+    icon: mdi:broadcast
     state_topic: "on-air/brian-mac"
-    value_template: "{{ value_json.mic_active or value_json.camera_active }}"
+    value_template: "{{ 'ON' if (value_json.mic_active or value_json.camera_active) else 'OFF' }}"
     json_attributes_topic: "on-air/brian-mac"
     json_attributes_template: "{{ value_json | tojson }}"
 
   - name: "Lauren on air"
     unique_id: on_air_lauren_win
+    icon: mdi:broadcast
     state_topic: "on-air/lauren-win"
-    value_template: "{{ value_json.mic_active or value_json.camera_active }}"
+    value_template: "{{ 'ON' if (value_json.mic_active or value_json.camera_active) else 'OFF' }}"
     json_attributes_topic: "on-air/lauren-win"
     json_attributes_template: "{{ value_json | tojson }}"

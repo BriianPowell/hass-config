@@ -1,0 +1,69 @@
+# Sections for the WiFi view (ui-lovelace.yaml). Groups are defined in includes/wifi_client_groups.yaml.
+
+- type: grid
+  cards:
+    - type: heading
+      heading: Overview
+      icon: mdi:wifi
+    - type: entities
+      show_header_toggle: false
+      state_color: true
+      entities:
+        - entity: sensor.wifi_clients_overview
+          name: Tracked clients
+          icon: mdi:wifi
+        - type: attribute
+          entity: sensor.wifi_clients_overview
+          attribute: people
+          name: People
+        - type: attribute
+          entity: sensor.wifi_clients_overview
+          attribute: computers
+          name: Computers
+        - type: attribute
+          entity: sensor.wifi_clients_overview
+          attribute: media
+          name: Media
+        - type: attribute
+          entity: sensor.wifi_clients_overview
+          attribute: iot
+          name: Smart home
+        - type: attribute
+          entity: sensor.wifi_clients_overview
+          attribute: guest
+          name: Guest
+
+- type: grid
+  cards:
+    - type: heading
+      heading: Groups
+      icon: mdi:account-group
+    - type: entities
+      show_header_toggle: false
+      state_color: true
+      entities:
+        - entity: group.wifi_people
+          name: People
+        - entity: group.wifi_computers
+          name: Computers
+        - entity: group.wifi_media
+          name: Media
+        - entity: group.wifi_iot
+          name: Smart home
+        - entity: group.wifi_guest
+          name: Guest
+
+- type: grid
+  cards:
+    - type: heading
+      heading: Not in a group
+      icon: mdi:help-circle-outline
+    - type: markdown
+      content: >-
+        {% set names = state_attr('sensor.wifi_uncategorized_online', 'devices') %}
+        {% if names in [none, 'None', ''] %}
+        Every online client is in a group.
+        {% else %}
+        **{{ states('sensor.wifi_uncategorized_online') }}** online:
+        {{ names }}
+        {% endif %}

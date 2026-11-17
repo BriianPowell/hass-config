@@ -1,63 +1,71 @@
 # UI Lovelace
-
-background: var(--lovelace-background, var(--primary-background-color))
+# https://www.home-assistant.io/dashboards/sections/
 
 title: Huntington Beach
 
 views:
   - title: Home
-    id: home
+    path: home
     icon: mdi:home
-    cards:
-      - type: horizontal-stack
+    type: sections
+    max_columns: 3
+    dense_section_placement: true
+    sections:
+      - type: grid
         cards:
+          - type: heading
+            heading: Today
+            icon: mdi:weather-partly-cloudy
           - type: custom:sun-card
           - type: weather-forecast
             entity: weather.forecast_home
             show_current: true
             show_forecast: false
-
-      - type: glance
-        title: On Air
-        show_name: true
-        show_state: true
-        show_icon: true
-        columns: 2
-        state_color: true
-        entities:
-          - entity: sensor.brian_on_air
-            name: Brian
-            icon: mdi:broadcast
-          - entity: sensor.lauren_on_air
-            name: Lauren
-            icon: mdi:broadcast
-
-      - type: glance
-        title: Live Power
-        show_name: true
-        show_state: true
-        show_icon: true
-        columns: 4
-        entities:
-          - entity: sensor.smartplug_server_1min
-            name: Server
-            icon: mdi:server
-          - entity: sensor.smartplug_pc_1min
-            name: PC
-            icon: mdi:desktop-tower
-          - entity: sensor.smartplug_carlos_1min
-            name: Carlos
-            icon: mdi:bed
-          - entity: sensor.smartplug_lauren_1min
-            name: Lauren
-            icon: mdi:bed
+          - type: glance
+            title: On Air
+            show_name: true
+            show_state: true
+            show_icon: true
+            columns: 2
+            state_color: true
+            entities:
+              - entity: binary_sensor.brian_on_air
+                name: Brian
+                icon: mdi:broadcast
+              - entity: binary_sensor.lauren_on_air
+                name: Lauren
+                icon: mdi:broadcast
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.dark_mode
+                name: Dark mode
 
       - type: grid
-        columns: 2
-        square: false
         cards:
+          - type: heading
+            heading: Power now
+            icon: mdi:flash
+          - type: glance
+            show_name: true
+            show_state: true
+            show_icon: true
+            columns: 4
+            entities:
+              - entity: sensor.smartplug_server_1min
+                name: Server
+                icon: mdi:server
+              - entity: sensor.smartplug_pc_1min
+                name: PC
+                icon: mdi:desktop-tower
+              - entity: sensor.smartplug_carlos_1min
+                name: Carlos
+                icon: mdi:bed
+              - entity: sensor.smartplug_lauren_1min
+                name: Lauren
+                icon: mdi:bed
           - type: entities
-            title: Smart Plugs
+            title: Smart plugs
             show_header_toggle: false
             entities:
               - entity: switch.smartplug_server
@@ -72,8 +80,13 @@ views:
                 name: Carlos
               - entity: switch.smartplug_lauren
                 name: Lauren
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: This month
+            icon: mdi:calendar-month
           - type: entities
-            title: Monthly Usage
             show_header_toggle: false
             entities:
               - name: Server
@@ -87,122 +100,133 @@ views:
 
       # Long-term statistics (hourly, kept indefinitely); the recorder only keeps 5 days of raw history.
       - type: grid
-        columns: 2
-        square: false
+        column_span: 3
         cards:
-          - type: statistics-graph
-            title: Server
-            entities:
-              - entity: sensor.server_smartplug_power_30min
-                name: Server
-            stat_types: [mean, max]
-            period: hour
-            days_to_show: 7
-            chart_type: line
-          - type: statistics-graph
-            title: PC
-            entities:
-              - entity: sensor.pc_smartplug_power_30min
-                name: PC
-            stat_types: [mean, max]
-            period: hour
-            days_to_show: 7
-            chart_type: line
-          - type: statistics-graph
-            title: Carlos
-            entities:
-              - entity: sensor.carlos_smartplug_power_30min
-                name: Carlos
-            stat_types: [mean, max]
-            period: hour
-            days_to_show: 7
-            chart_type: line
-          - type: statistics-graph
-            title: Lauren
-            entities:
-              - entity: sensor.lauren_smartplug_power_30min
-                name: Lauren
-            stat_types: [mean, max]
-            period: hour
-            days_to_show: 7
-            chart_type: line
-
-      - type: entities
-        title: Appearance
-        show_header_toggle: false
-        entities:
-          - entity: input_boolean.dark_mode
-            name: Dark mode
+          - type: heading
+            heading: Power, last 7 days
+            icon: mdi:chart-line
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: statistics-graph
+                title: Server
+                entities:
+                  - entity: sensor.server_smartplug_power_30min
+                    name: Server
+                stat_types: [mean, max]
+                period: hour
+                days_to_show: 7
+                chart_type: line
+              - type: statistics-graph
+                title: PC
+                entities:
+                  - entity: sensor.pc_smartplug_power_30min
+                    name: PC
+                stat_types: [mean, max]
+                period: hour
+                days_to_show: 7
+                chart_type: line
+              - type: statistics-graph
+                title: Carlos
+                entities:
+                  - entity: sensor.carlos_smartplug_power_30min
+                    name: Carlos
+                stat_types: [mean, max]
+                period: hour
+                days_to_show: 7
+                chart_type: line
+              - type: statistics-graph
+                title: Lauren
+                entities:
+                  - entity: sensor.lauren_smartplug_power_30min
+                    name: Lauren
+                stat_types: [mean, max]
+                period: hour
+                days_to_show: 7
+                chart_type: line
 
   - title: WiFi
-    id: wifi
+    path: wifi
     icon: mdi:wifi
-    cards: !include lovelace/wifi_view_cards.yaml
+    type: sections
+    max_columns: 3
+    dense_section_placement: true
+    sections: !include lovelace/wifi_view_sections.yaml
 
   - title: Network
-    id: network
+    path: network
     icon: mdi:router-network
-    cards:
-      - type: entities
-        title: Connectivity
-        show_header_toggle: false
-        entities:
-          - name: WAN Status
-            entity: binary_sensor.dmp_wan_online
-
-      - type: entities
-        title: Gateway
-        show_header_toggle: false
-        entities:
-          - entity: sensor.boog_dmp_cpu_utilization_2
-            name: CPU
-            icon: mdi:cpu-64-bit
-          - entity: sensor.boog_dmp_memory_utilization_2
-            name: Memory
-            icon: mdi:memory
-          - entity: sensor.udm_uptime_formatted
-            name: Uptime
-            icon: mdi:clock-outline
-          - entity: sensor.boog_dmp_clients
-            name: Connected clients
-            icon: mdi:lan-connect
-          - entity: sensor.dmp_wan_latency_ms
-            name: WAN latency
-            icon: mdi:speedometer
-          - entity: sensor.dmp_wan_public_ip
-            name: WAN IP
-            icon: mdi:ip-network
-
-      - type: entities
-        title: WAN usage this month
-        show_header_toggle: false
-        entities:
-          - entity: sensor.dmp_wan_monthly_total_mbps
-            name: Avg total (down + up)
-            icon: mdi:wan
-          - type: section
-            label: Avg rate
-          - entity: sensor.dmp_wan_monthly_download_mbps
-            name: Avg download
-          - entity: sensor.dmp_wan_monthly_upload_mbps
-            name: Avg upload
-          - type: section
-            label: Volume
-          - type: attribute
-            entity: sensor.dmp_wan_monthly_total_mbps
-            attribute: total_gib
-            name: Total transferred (GiB)
-          - type: attribute
-            entity: sensor.dmp_wan_monthly_total_mbps
-            attribute: last_reset
-            name: Period started
+    type: sections
+    max_columns: 3
+    dense_section_placement: true
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Gateway
+            icon: mdi:router-wireless
+          - type: entities
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - name: WAN status
+                entity: binary_sensor.dmp_wan_online
+              - entity: sensor.dmp_wan_latency_ms
+                name: WAN latency
+                icon: mdi:speedometer
+              - entity: sensor.dmp_wan_public_ip
+                name: WAN IP
+                icon: mdi:ip-network
+              - type: divider
+              - entity: sensor.boog_dmp_cpu_utilization_2
+                name: CPU
+                icon: mdi:cpu-64-bit
+              - entity: sensor.boog_dmp_memory_utilization_2
+                name: Memory
+                icon: mdi:memory
+              - entity: sensor.udm_uptime_formatted
+                name: Uptime
+                icon: mdi:clock-outline
+              - entity: sensor.boog_dmp_clients
+                name: Clients on the gateway
+                icon: mdi:lan-connect
 
       - type: grid
-        columns: 2
-        square: false
         cards:
+          - type: heading
+            heading: WAN usage this month
+            icon: mdi:wan
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: sensor.dmp_wan_monthly_total_mbps
+                name: Avg total (down + up)
+                icon: mdi:wan
+              - type: section
+                label: Avg rate
+              - entity: sensor.dmp_wan_monthly_download_mbps
+                name: Avg download
+              - entity: sensor.dmp_wan_monthly_upload_mbps
+                name: Avg upload
+              - type: section
+                label: Volume
+              - type: attribute
+                entity: sensor.dmp_wan_monthly_total_mbps
+                attribute: total_gib
+                name: Total transferred (GiB)
+              - type: attribute
+                entity: sensor.dmp_wan_monthly_total_mbps
+                attribute: last_reset
+                name: Period started
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Traffic, last 24 hours
+            icon: mdi:chart-line
           - type: history-graph
-            title: WAN throughput (Mbit/s)
+            title: Throughput (Mbit/s)
             hours_to_show: 24
             entities:
               - entity: sensor.dmp_wan_download_mbps
@@ -210,10 +234,10 @@ views:
               - entity: sensor.dmp_wan_upload_mbps
                 name: Sent
           - type: history-graph
-            title: WAN packets/s
+            title: Packets/s
             hours_to_show: 24
             entities:
-              - entity: sensor.dmp_wan_packets_received
+              - entity: sensor.dmp_wan_packets_received_rate
                 name: Received
-              - entity: sensor.dmp_wan_packets_sent
+              - entity: sensor.dmp_wan_packets_sent_rate
                 name: Sent
