@@ -35,12 +35,6 @@ views:
               - entity: binary_sensor.lauren_on_air
                 name: Lauren
                 icon: mdi:broadcast
-          - type: entities
-            show_header_toggle: false
-            entities:
-              - entity: input_boolean.dark_mode
-                name: Dark mode
-
       - type: grid
         cards:
           - type: heading

@@ -1,38 +1,12 @@
-- id: frontend_dark_mode_on
-  alias: 'Frontend: turn on dark mode'
-  triggers:
-    - trigger: sun
-      event: sunset
-  conditions: "{{ is_state('input_boolean.dark_mode', 'off') }}"
-  actions:
-    - action: input_boolean.turn_on
-      target:
-        entity_id: input_boolean.dark_mode
-
-- id: frontend_dark_mode_off
-  alias: 'Frontend: turn on light mode'
-  triggers:
-    - trigger: sun
-      event: sunrise
-  conditions: "{{ is_state('input_boolean.dark_mode', 'on') }}"
-  actions:
-    - action: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.dark_mode
-
+# name_dark makes each browser follow its own light/dark setting (OS or profile), so no
+# sunrise/sunset switching is needed. set_theme is not persisted, hence the start trigger.
 - id: frontend_set_theme
-  alias: 'Frontend: change theme'
+  alias: 'Frontend: set theme'
   triggers:
-    - trigger: state
-      entity_id: input_boolean.dark_mode
     - trigger: homeassistant
       event: start
   actions:
     - action: frontend.set_theme
       data:
-        name: >
-          {% if is_state('input_boolean.dark_mode', 'on') %}
-            Dracula
-          {% else %}
-            ios-light-mode-blue-red
-          {% endif %}
+        name: ios-light-mode-blue-red
+        name_dark: Dracula
