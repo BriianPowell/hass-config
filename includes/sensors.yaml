@@ -22,25 +22,6 @@
     minutes: 5
   round: 2
 
-# Packet rates from the cumulative counters in includes/templates/21_dmp_connectivity.yaml.
-- platform: derivative
-  source: sensor.dmp_wan_packets_received
-  name: DMP WAN Packets Received Rate
-  unique_id: dmp_wan_packets_received_rate
-  unit_time: s
-  unit: packets/s
-  time_window: "00:01:00"
-  round: 0
-
-- platform: derivative
-  source: sensor.dmp_wan_packets_sent
-  name: DMP WAN Packets Sent Rate
-  unique_id: dmp_wan_packets_sent_rate
-  unit_time: s
-  unit: packets/s
-  time_window: "00:01:00"
-  round: 0
-
 # UniFi does not expose WAN IP; poll public address (same as WAN for most homes).
 - platform: rest
   name: DMP WAN Public IP (ipify)

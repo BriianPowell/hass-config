@@ -1,5 +1,8 @@
 # DMP WAN template sensors (merged via includes/templates/).
-# Normalizes UniFi rate units to KiB/s, then Mbit/s for display / monthly averages.
+# WAN throughput, packets and external IP come from the UPnP integration (sensor.unifi_dream_machine_*);
+# latency comes from the UniFi integration (sensor.boog_dmp_*). The UniFi Protect integration also
+# creates boog_dmp_* entities with a _2 suffix (CPU, memory, uptime); those are not used here.
+# Normalizes the UPnP rate unit to KiB/s, then Mbit/s for display / monthly averages.
 
 - sensor:
   - default_entity_id: sensor.dmp_wan_download_kib_s
@@ -9,62 +12,22 @@
     device_class: data_rate
     state_class: measurement
     icon: mdi:download
-    availability: >-
-      {% set candidates = [
-        'sensor.boog_dmp_download_speed',
-        'sensor.boog_dmp_download_speed_2',
-        'sensor.unifi_dream_machine_download_speed'
-      ] %}
-      {% set ns = namespace(ok=false) %}
-      {% for e in candidates %}
-        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.ok = true %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.ok }}
+    availability: "{{ has_value('sensor.unifi_dream_machine_download_speed') }}"
     state: >-
-      {% set candidates = [
-        'sensor.boog_dmp_download_speed',
-        'sensor.boog_dmp_download_speed_2',
-        'sensor.unifi_dream_machine_download_speed'
-      ] %}
-      {% set ns = namespace(v=none, uom='') %}
-      {% for e in candidates %}
-        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.v = states(e) | float(0) %}
-          {% set ns.uom = state_attr(e, 'unit_of_measurement') | default('') %}
-        {% endif %}
-      {% endfor %}
-      {% if ns.v is none %}
-        0
-      {% elif ns.uom in ['Mbit/s', 'Mb/s', 'Mbps'] %}
-        {{ (ns.v * 1000000 / 8 / 1024) | round(4) }}
-      {% elif ns.uom in ['MB/s'] %}
-        {{ (ns.v * 1000000 / 1024) | round(4) }}
-      {% elif ns.uom in ['MiB/s'] %}
-        {{ (ns.v * 1024) | round(4) }}
-      {% elif ns.uom in ['kB/s', 'KB/s'] %}
-        {{ (ns.v * 1000 / 1024) | round(4) }}
+      {% set e = 'sensor.unifi_dream_machine_download_speed' %}
+      {% set v = states(e) | float(0) %}
+      {% set uom = state_attr(e, 'unit_of_measurement') | default('') %}
+      {% if uom in ['Mbit/s', 'Mb/s', 'Mbps'] %}
+        {{ (v * 1000000 / 8 / 1024) | round(4) }}
+      {% elif uom in ['MB/s'] %}
+        {{ (v * 1000000 / 1024) | round(4) }}
+      {% elif uom in ['MiB/s'] %}
+        {{ (v * 1024) | round(4) }}
+      {% elif uom in ['kB/s', 'KB/s'] %}
+        {{ (v * 1000 / 1024) | round(4) }}
       {% else %}
-        {{ ns.v | round(4) }}
+        {{ v | round(4) }}
       {% endif %}
-    attributes:
-      source_entity: >-
-        {% set candidates = [
-          'sensor.boog_dmp_download_speed',
-          'sensor.boog_dmp_download_speed_2',
-          'sensor.unifi_dream_machine_download_speed'
-        ] %}
-        {% set ns = namespace(e='') %}
-        {% for c in candidates %}
-          {% if ns.e == '' and states(c) not in ['unknown', 'unavailable', ''] %}
-            {% set ns.e = c %}
-          {% endif %}
-        {% endfor %}
-        {{ ns.e if ns.e != '' else 'none' }}
-      source_unit: >-
-        {% set e = state_attr('sensor.dmp_wan_download_kib_s', 'source_entity') %}
-        {{ state_attr(e, 'unit_of_measurement') if e and e != 'none' else '' }}
 
   - default_entity_id: sensor.dmp_wan_upload_kib_s
     unique_id: dmp_wan_upload_kib_s
@@ -73,59 +36,22 @@
     device_class: data_rate
     state_class: measurement
     icon: mdi:upload
-    availability: >-
-      {% set candidates = [
-        'sensor.boog_dmp_upload_speed',
-        'sensor.boog_dmp_upload_speed_2',
-        'sensor.unifi_dream_machine_upload_speed'
-      ] %}
-      {% set ns = namespace(ok=false) %}
-      {% for e in candidates %}
-        {% if not ns.ok and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.ok = true %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.ok }}
+    availability: "{{ has_value('sensor.unifi_dream_machine_upload_speed') }}"
     state: >-
-      {% set candidates = [
-        'sensor.boog_dmp_upload_speed',
-        'sensor.boog_dmp_upload_speed_2',
-        'sensor.unifi_dream_machine_upload_speed'
-      ] %}
-      {% set ns = namespace(v=none, uom='') %}
-      {% for e in candidates %}
-        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', ''] %}
-          {% set ns.v = states(e) | float(0) %}
-          {% set ns.uom = state_attr(e, 'unit_of_measurement') | default('') %}
-        {% endif %}
-      {% endfor %}
-      {% if ns.v is none %}
-        0
-      {% elif ns.uom in ['Mbit/s', 'Mb/s', 'Mbps'] %}
-        {{ (ns.v * 1000000 / 8 / 1024) | round(4) }}
-      {% elif ns.uom in ['MB/s'] %}
-        {{ (ns.v * 1000000 / 1024) | round(4) }}
-      {% elif ns.uom in ['MiB/s'] %}
-        {{ (ns.v * 1024) | round(4) }}
-      {% elif ns.uom in ['kB/s', 'KB/s'] %}
-        {{ (ns.v * 1000 / 1024) | round(4) }}
+      {% set e = 'sensor.unifi_dream_machine_upload_speed' %}
+      {% set v = states(e) | float(0) %}
+      {% set uom = state_attr(e, 'unit_of_measurement') | default('') %}
+      {% if uom in ['Mbit/s', 'Mb/s', 'Mbps'] %}
+        {{ (v * 1000000 / 8 / 1024) | round(4) }}
+      {% elif uom in ['MB/s'] %}
+        {{ (v * 1000000 / 1024) | round(4) }}
+      {% elif uom in ['MiB/s'] %}
+        {{ (v * 1024) | round(4) }}
+      {% elif uom in ['kB/s', 'KB/s'] %}
+        {{ (v * 1000 / 1024) | round(4) }}
       {% else %}
-        {{ ns.v | round(4) }}
+        {{ v | round(4) }}
       {% endif %}
-    attributes:
-      source_entity: >-
-        {% set candidates = [
-          'sensor.boog_dmp_upload_speed',
-          'sensor.boog_dmp_upload_speed_2',
-          'sensor.unifi_dream_machine_upload_speed'
-        ] %}
-        {% set ns = namespace(e='') %}
-        {% for c in candidates %}
-          {% if ns.e == '' and states(c) not in ['unknown', 'unavailable', ''] %}
-            {% set ns.e = c %}
-          {% endif %}
-        {% endfor %}
-        {{ ns.e if ns.e != '' else 'none' }}
 
   - default_entity_id: sensor.dmp_wan_download_mbps
     unique_id: dmp_wan_download_mbps
@@ -214,6 +140,7 @@
         {{ state_attr('sensor.dmp_wan_download_monthly', 'last_reset')
            or now().replace(day=1, hour=0, minute=0, second=0, microsecond=0) }}
 
+  # Fastest of the three probes (Google, Cloudflare, Microsoft) that currently have a value.
   - default_entity_id: sensor.dmp_wan_latency_ms
     unique_id: dmp_wan_latency_ms
     name: DMP WAN Latency
@@ -221,71 +148,19 @@
     state_class: measurement
     icon: mdi:speedometer
     availability: >-
-      {{ [
-        'sensor.boog_dmp_google_wan_latency',
-        'sensor.boog_dmp_cloudflare_wan_latency',
-        'sensor.boog_dmp_microsoft_wan_latency',
-        'sensor.boog_dmp_google_wan_latency_2',
-        'sensor.boog_dmp_cloudflare_wan_latency_2',
-        'sensor.boog_dmp_microsoft_wan_latency_2',
-        'sensor.unifi_dream_machine_google_wan_latency',
-        'sensor.unifi_dream_machine_cloudflare_wan_latency',
-        'sensor.unifi_dream_machine_microsoft_wan_latency',
-      ] | select('has_value') | list | count > 0 }}
+      {{ ['sensor.boog_dmp_google_wan_latency', 'sensor.boog_dmp_cloudflare_wan_latency',
+          'sensor.boog_dmp_microsoft_wan_latency'] | select('has_value') | list | count > 0 }}
     state: >-
-      {% set candidates = [
-        'sensor.boog_dmp_google_wan_latency',
-        'sensor.boog_dmp_cloudflare_wan_latency',
-        'sensor.boog_dmp_microsoft_wan_latency',
-        'sensor.boog_dmp_google_wan_latency_2',
-        'sensor.boog_dmp_cloudflare_wan_latency_2',
-        'sensor.boog_dmp_microsoft_wan_latency_2',
-        'sensor.unifi_dream_machine_google_wan_latency',
-        'sensor.unifi_dream_machine_cloudflare_wan_latency',
-        'sensor.unifi_dream_machine_microsoft_wan_latency',
-      ] %}
-      {% set ns = namespace(v=none) %}
-      {% for e in candidates %}
-        {% if ns.v is none and states(e) not in ['unknown', 'unavailable', 'none', ''] %}
-          {% set ns.v = states(e) | float(0) %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.v if ns.v is not none else 0 }}
-    attributes:
-      source_entity: >-
-        {% set candidates = [
-          'sensor.boog_dmp_google_wan_latency',
-          'sensor.boog_dmp_cloudflare_wan_latency',
-          'sensor.boog_dmp_microsoft_wan_latency',
-          'sensor.boog_dmp_google_wan_latency_2',
-          'sensor.boog_dmp_cloudflare_wan_latency_2',
-          'sensor.boog_dmp_microsoft_wan_latency_2',
-          'sensor.unifi_dream_machine_google_wan_latency',
-          'sensor.unifi_dream_machine_cloudflare_wan_latency',
-          'sensor.unifi_dream_machine_microsoft_wan_latency',
-        ] %}
-        {% set ns = namespace(e='') %}
-        {% for c in candidates %}
-          {% if ns.e == '' and states(c) not in ['unknown', 'unavailable', 'none', ''] %}
-            {% set ns.e = c %}
-          {% endif %}
-        {% endfor %}
-        {{ ns.e if ns.e != '' else 'none' }}
+      {% set vals = ['sensor.boog_dmp_google_wan_latency', 'sensor.boog_dmp_cloudflare_wan_latency',
+                     'sensor.boog_dmp_microsoft_wan_latency']
+                    | select('has_value') | map('states') | map('float', 0) | list %}
+      {{ (vals | min) if vals else 0 }}
 
   - default_entity_id: sensor.dmp_wan_public_ip
     unique_id: dmp_wan_public_ip
     name: DMP WAN IP
     icon: mdi:ip-network
     state: >-
-      {% set candidates = [
-        'sensor.boog_dmp_wan_ip',
-        'sensor.unifi_dream_machine_wan_ip',
-        'sensor.dmp_wan_public_ip_ipify'
-      ] %}
-      {% set ns = namespace(ip='') %}
-      {% for e in candidates %}
-        {% if ns.ip == '' and states(e) not in ['unknown', 'unavailable', 'none', ''] %}
-          {% set ns.ip = states(e) %}
-        {% endif %}
-      {% endfor %}
-      {{ ns.ip if ns.ip != '' else 'unknown' }}
+      {% set e = ['sensor.unifi_dream_machine_external_ip', 'sensor.dmp_wan_public_ip_ipify']
+                 | select('has_value') | first | default('') %}
+      {{ states(e) if e else 'unknown' }}

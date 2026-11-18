@@ -170,10 +170,10 @@ views:
                 name: WAN IP
                 icon: mdi:ip-network
               - type: divider
-              - entity: sensor.boog_dmp_cpu_utilization_2
+              - entity: sensor.boog_dmp_cpu_utilization
                 name: CPU
                 icon: mdi:cpu-64-bit
-              - entity: sensor.boog_dmp_memory_utilization_2
+              - entity: sensor.boog_dmp_memory_utilization
                 name: Memory
                 icon: mdi:memory
               - entity: sensor.udm_uptime_formatted
@@ -228,7 +228,7 @@ views:
             title: Packets/s
             hours_to_show: 24
             entities:
-              - entity: sensor.dmp_wan_packets_received_rate
+              - entity: sensor.unifi_dream_machine_packet_download_speed
                 name: Received
-              - entity: sensor.dmp_wan_packets_sent_rate
+              - entity: sensor.unifi_dream_machine_packet_upload_speed
                 name: Sent
