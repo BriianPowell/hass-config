@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Keep in step with the version installed from HACS on the cluster.
-      OIDC_VERSION: v1.2.1
+      OIDC_VERSION: v1.3.0
       DEPLOYMENT_URL: https://raw.githubusercontent.com/BriianPowell/k3s-collective/main/apps/base/homeassistant/deployment.yaml
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
